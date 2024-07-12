@@ -44,6 +44,7 @@ class ArtGenerationApiService
                 "n" => 1,
                 "size" => $width . "x" . $height
             ],
+            'http_errors' => false,
         ]);
 
         $json = match ($response->getStatusCode()) {
