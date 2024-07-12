@@ -19,7 +19,7 @@ class ArtGenerationApiServiceTest extends TestCase
 {
     public function test_requests_an_art_successfully(): void
     {
-        $fakeApiKey = 'asdasdasddad';
+        $apiKey = 'asdasdasddad';
         $prompt = 'Music band of cats';
         $width = 1024;
         $height = 1024;
@@ -42,25 +42,9 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getBody')
             ->willReturn($streamInterfaceMock);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $fakeApiKey
-                    ],
-                    'json' => [
-                        "model" => "dall-e-3",
-                        "prompt" => $prompt,
-                        "n" => 1,
-                        "size" => $width . "x" . $height
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
-        $artGenerationApiService = new ArtGenerationApiService($fakeApiKey, $clientMock);
+        $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
         $result = $artGenerationApiService->request($prompt, $width, $height);
 
@@ -80,23 +64,7 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getStatusCode')
             ->willReturn(\Illuminate\Http\Response::HTTP_UNAUTHORIZED);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey
-                    ],
-                    'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
-                        "n" => 1,
-                        "size" => '1024x1024'
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
         $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
@@ -130,23 +98,7 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getStatusCode')
             ->willReturn(\Illuminate\Http\Response::HTTP_FORBIDDEN);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey
-                    ],
-                    'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
-                        "n" => 1,
-                        "size" => '1024x1024'
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
         $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
@@ -168,23 +120,7 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getStatusCode')
             ->willReturn(\Illuminate\Http\Response::HTTP_TOO_MANY_REQUESTS);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey
-                    ],
-                    'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
-                        "n" => 1,
-                        "size" => '1024x1024'
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
         $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
@@ -206,23 +142,7 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getStatusCode')
             ->willReturn(\Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey
-                    ],
-                    'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
-                        "n" => 1,
-                        "size" => '1024x1024'
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
         $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
@@ -244,23 +164,7 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getStatusCode')
             ->willReturn(\Illuminate\Http\Response::HTTP_SERVICE_UNAVAILABLE);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey
-                    ],
-                    'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
-                        "n" => 1,
-                        "size" => '1024x1024'
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
         $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
@@ -287,23 +191,7 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getBody')
             ->willReturn($streamInterfaceMock);
 
-        $clientMock = $this->createMock(Client::class);
-        $clientMock->expects($this->once())
-            ->method('post')
-            ->with(
-                'https://api.openai.com/v1/images/generations',
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . $apiKey
-                    ],
-                    'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
-                        "n" => 1,
-                        "size" => '1024x1024'
-                    ],
-                ]
-            )->willReturn($responseMock);
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
 
         $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
 
@@ -332,6 +220,32 @@ class ArtGenerationApiServiceTest extends TestCase
             ->method('getBody')
             ->willReturn($streamInterfaceMock);
 
+        $clientMock = $this->getClientMock($apiKey, $prompt, $width, $height, $responseMock);
+
+        $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('The json returned from the API server is invalid.');
+
+        $artGenerationApiService->request($prompt, $width, $height);
+    }
+
+    /**
+     * @param string $apiKey
+     * @param string $prompt
+     * @param int $width
+     * @param int $height
+     * @param object $responseMock
+     * @return Client
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    protected function getClientMock(
+        string $apiKey,
+        string $prompt,
+        int $width,
+        int $height,
+        object $responseMock
+    ): Client {
         $clientMock = $this->createMock(Client::class);
         $clientMock->expects($this->once())
             ->method('post')
@@ -342,19 +256,13 @@ class ArtGenerationApiServiceTest extends TestCase
                         'Authorization' => 'Bearer ' . $apiKey
                     ],
                     'json' => [
-                        "model" => 'dall-e-3',
-                        "prompt" => 'Music band of cats',
+                        "model" => "dall-e-3",
+                        "prompt" => $prompt,
                         "n" => 1,
-                        "size" => '1024x1024'
+                        "size" => $width . "x" . $height
                     ],
                 ]
             )->willReturn($responseMock);
-
-        $artGenerationApiService = new ArtGenerationApiService($apiKey, $clientMock);
-
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('The json returned from the API server is invalid.');
-
-        $artGenerationApiService->request($prompt, $width, $height);
+        return $clientMock;
     }
 }
