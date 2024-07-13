@@ -13,10 +13,13 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Http\Message\StreamInterface;
 use Tests\TestCase;
+use Tests\Traits\ProvidesInvalidApiKeys;
 use UnexpectedValueException;
 
 class ArtGenerationApiServiceTest extends TestCase
 {
+    use ProvidesInvalidApiKeys;
+
     public function test_requests_an_art_successfully(): void
     {
         $apiKey = 'asdasdasddad';
@@ -72,18 +75,6 @@ class ArtGenerationApiServiceTest extends TestCase
         $this->expectExceptionMessage('Invalid API Key.');
 
         $artGenerationApiService->request($prompt, $width, $height);
-    }
-
-    public static function invalidApiKeyDataProvider (): array
-    {
-        return [
-            'Empty api key' => [
-                'apiKey' => ''
-            ],
-            'Invalid api key' => [
-                'apiKey' => 'invalid apu key'
-            ],
-        ];
     }
 
     public function test_throws_invalid_region_exception_when_invalid_region(): void
@@ -261,6 +252,7 @@ class ArtGenerationApiServiceTest extends TestCase
                         "n" => 1,
                         "size" => $width . "x" . $height
                     ],
+                    'http_errors' => false
                 ]
             )->willReturn($responseMock);
         return $clientMock;

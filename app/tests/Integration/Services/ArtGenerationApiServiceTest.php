@@ -7,9 +7,12 @@ use App\Services\ArtGenerationApiService;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
+use Tests\Traits\ProvidesInvalidApiKeys;
 
 class ArtGenerationApiServiceTest extends TestCase
 {
+    use ProvidesInvalidApiKeys;
+
     private string $artGeneratedPath = '';
 
     protected function tearDown(): void
@@ -44,17 +47,5 @@ class ArtGenerationApiServiceTest extends TestCase
         $this->expectExceptionMessage('Invalid API Key.');
 
         $artGenerationApiService->request('Dancing dogs.', 1024, 1024);
-    }
-
-    public static function invalidApiKeyDataProvider (): array
-    {
-        return [
-            'Empty api key' => [
-                'apiKey' => ''
-            ],
-            'Invalid api key' => [
-                'apiKey' => 'invalid apu key'
-            ],
-        ];
     }
 }
