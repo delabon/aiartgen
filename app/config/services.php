@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'openai' => [
+        'api_key' => env('APP_OPENAI_API_KEY'),
+    ],
+
+    'dirs' => [
+        'arts' => env('APP_ART_GEN_DIR')
+    ]
 ];
