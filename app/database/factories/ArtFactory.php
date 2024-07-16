@@ -22,7 +22,7 @@ class ArtFactory extends Factory
         $artDir = env('APP_ART_GEN_DIR');
 
         return [
-            'name' => $this->faker->image($artDir, 1024, 1024),
+            'name' => basename($this->faker->image($artDir, 1024, 1024)),
             'user_id' => User::factory()
         ];
     }
