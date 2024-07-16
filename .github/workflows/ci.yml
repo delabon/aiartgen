@@ -22,6 +22,7 @@ jobs:
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        working-directory: app
 
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -29,17 +30,21 @@ jobs:
 
       - name: Generate key
         run: php artisan key:generate
+        working-directory: app
 
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
+        working-directory: app
 
       - name: Create Database
         run: |
           mkdir -p database
           touch database/database.sqlite
+        working-directory: app
 
       - name: Execute unit tests via PHPUnit/Pest
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test --testsuite=Unit
+        working-directory: app
