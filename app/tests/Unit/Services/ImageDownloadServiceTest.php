@@ -12,7 +12,7 @@ class ImageDownloadServiceTest extends TestCase
     public function test_downloads_image_successfully(): void
     {
         $dir = env('APP_ART_GEN_DIR');
-        $imageUrl = '/var/www/project/tests/TestFiles/1.png';
+        $imageUrl = __DIR__ . '/../../TestFiles/1.png';
         $imageDownloadService = new ImageDownloadService($dir);
 
         $imagePath = $imageDownloadService->download($imageUrl);
@@ -26,7 +26,7 @@ class ImageDownloadServiceTest extends TestCase
     public function test_downloads_different_type_of_image(): void
     {
         $dir = env('APP_ART_GEN_DIR');
-        $imageUrl = '/var/www/project/tests/TestFiles/3.jpg';
+        $imageUrl = __DIR__ . '/../../TestFiles/3.jpg';
         $imageDownloadService = new ImageDownloadService($dir);
 
         $imagePath = $imageDownloadService->download($imageUrl);
@@ -61,7 +61,7 @@ class ImageDownloadServiceTest extends TestCase
 
     public function test_throws_invalid_image_exception_when_path_or_url_is_not_an_image(): void
     {
-        $imageUrl = '/var/www/project/tests/TestFiles/2.pdf';
+        $imageUrl = __DIR__ . '/../../TestFiles/2.pdf';
         $imageDownloadService = new ImageDownloadService(env('APP_ART_GEN_DIR'));
 
         $this->expectException(InvalidImageException::class);
