@@ -11,7 +11,7 @@ on:
       - '**.php'
 
 jobs:
-  phpunit:
+  tests:
 
     runs-on: ubuntu-latest
     steps:
@@ -42,9 +42,13 @@ jobs:
           touch database/database.sqlite
         working-directory: app
 
-      - name: Execute unit tests via PHPUnit/Pest
+      - name: Unit tests
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test --testsuite=Unit
+        working-directory: app
+
+      - name: PHPStan tests
+        run: vendor/bin/phpstan analyse
         working-directory: app
