@@ -23,6 +23,7 @@ class ArtFactory extends Factory
 
         return [
             'filename' => basename($this->faker->image($artDir, 1024, 1024)),
+            'title' => $this->faker->title(),
             'user_id' => User::factory()
         ];
     }
