@@ -10,5 +10,6 @@ Route::get('/', function () {
 
 Route::get('/arts', [ArtController::class, 'index']);
 Route::post('/arts', [ArtController::class, 'create']);
+Route::get('/arts/{art}', [ArtController::class, 'show']);
 
 Route::get('/image/{art}', [ImageController::class, 'show']);
