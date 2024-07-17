@@ -27,13 +27,7 @@ docker-compose up --build -d
 ### Connect to container bash (host)
 
 ```bash
-docker exec -it container_id bash
-```
-
-### Install laravel (php-container)
-
-```bash
-composer create-project laravel/laravel .
+docker exec -it php-container bash
 ```
 
 ### npm install / watch / install package (host)
