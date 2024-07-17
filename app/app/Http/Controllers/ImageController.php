@@ -12,7 +12,7 @@ class ImageController extends Controller
 {
     public function show(Art $art): BinaryFileResponse|Response
     {
-        $path = Config::get('services.dirs.arts') . '/' . $art->name;
+        $path = Config::get('services.dirs.arts') . '/' . $art->filename;
 
         if (!file_exists($path) || !is_readable($path)) {
             abort(Response::HTTP_NOT_FOUND);

@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('art', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('filename');
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

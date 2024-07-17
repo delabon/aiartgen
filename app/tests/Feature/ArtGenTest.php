@@ -33,7 +33,7 @@ class ArtGenTest extends TestCase
         $response->assertRedirect('/arts');
 
         $art = Art::first();
-        $filePath = $dir . '/' . $art->name;
+        $filePath = $dir . '/' . $art->filename;
 
         $this->assertInstanceOf(Art::class, $art);
         $this->assertCount(1, $art->user->arts);

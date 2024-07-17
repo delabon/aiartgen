@@ -31,6 +31,13 @@ class ArtController extends Controller
         ]);
     }
 
+    public function show(Art $art): View
+    {
+        return view('arts.show', [
+            'art' => $art,
+        ]);
+    }
+
     public function create(): RedirectResponse|Response
     {
         request()->validate([
@@ -51,7 +58,7 @@ class ArtController extends Controller
             $artPath = $imageDownloadService->download($artUrl);
 
             Art::create([
-                'name' => basename($artPath),
+                'filename' => basename($artPath),
                 'user_id' => Auth::user()->id
             ]);
 

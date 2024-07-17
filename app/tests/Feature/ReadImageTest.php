@@ -14,7 +14,7 @@ class ReadImageTest extends TestCase
     public function test_reads_image_successfully(): void
     {
         $art = Art::factory()->create();
-        $mimeType = mime_content_type(Config::get('services.dirs.arts') . '/' . $art->name);
+        $mimeType = mime_content_type(Config::get('services.dirs.arts') . '/' . $art->filename);
 
         $this->get("/image/{$art->id}")
             ->assertOk()
