@@ -16,14 +16,14 @@ class ReadImageTest extends TestCase
         $art = Art::factory()->create();
         $mimeType = mime_content_type(Config::get('services.dirs.arts') . '/' . $art->name);
 
-        $this->get("/image/{$art->name}")
+        $this->get("/image/{$art->id}")
             ->assertOk()
             ->assertHeader('Content-Type', $mimeType);
     }
 
     public function test_returns_not_found_response_when_image_does_not_exist(): void
     {
-        $this->get("/image/does-not-exist-ever.png")
+        $this->get("/image/894359834975348959")
             ->assertNotFound();
     }
 }
