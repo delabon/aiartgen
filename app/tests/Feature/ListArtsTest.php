@@ -39,17 +39,22 @@ class ListArtsTest extends TestCase
         Config::set('services.pagination.per_page', 2);
         $imageBaseUrl = url('/image');
         $artUrls = [];
+        $artistUrls = [];
+        $artistNames = [];
         $arts = Art::factory(3)->create();
-
         $response = $this->get('/arts');
 
         $response->assertOk();
 
         for ($i = 2; $i > 0; $i--) {
             $artUrls[] = $imageBaseUrl . '/' . $arts[$i]->id;
+            $artistUrls[] = "/artist/{$arts[$i]->user->id}";
+            $artistNames[] = $arts[$i]->user->name;
         }
 
         $response->assertSeeInOrder($artUrls);
+        $response->assertSeeInOrder($artistUrls);
+        $response->assertSeeTextInOrder($artistNames);
 
         $response->assertDontSee($imageBaseUrl . '/' . $arts[0]->id);
 
