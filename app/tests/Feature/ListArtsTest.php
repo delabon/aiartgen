@@ -60,4 +60,12 @@ class ListArtsTest extends TestCase
 
         $response->assertSee('arts?page=2');
     }
+
+    public function test_contains_no_art_text_when_no_art(): void
+    {
+        $response = $this->get('/arts');
+
+        $response->assertOk()
+            ->assertSee('No art at the moment.');
+    }
 }
