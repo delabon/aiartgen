@@ -30,10 +30,9 @@ docker-compose up --build -d
 docker exec -it php-container bash
 ```
 
-### npm install / watch / install package (host)
+### Npm
 
 ```bash
 docker-compose run --rm node-service npm install
-docker-compose run --rm node-service npm i bootstrap --save-dev
-docker-compose run --rm node-service npm run watch
+docker-compose run --rm node-service npm run build
 ```
