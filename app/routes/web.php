@@ -9,8 +9,12 @@ Route::get('/', function () {
 });
 
 Route::get('/arts', [ArtController::class, 'index']);
-Route::post('/arts', [ArtController::class, 'store']);
-Route::get('/arts/create', [ArtController::class, 'create']);
+Route::post('/arts', [ArtController::class, 'store'])->middleware('auth');
+Route::get('/arts/create', [ArtController::class, 'create'])->middleware('auth');
 Route::get('/arts/{art}', [ArtController::class, 'show']);
 
 Route::get('/image/{art}', [ImageController::class, 'show']);
+
+Route::get('/login', function () {
+    return 'Login page';
+})->name('login');

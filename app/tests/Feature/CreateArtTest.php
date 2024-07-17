@@ -18,8 +18,16 @@ class CreateArtTest extends TestCase
     use RefreshDatabase;
     use ProvidesInvalidApiKeys;
 
+    public function test_redirects_to_login_page_when_not_logged_in(): void
+    {
+        $this->get('/arts/create')->assertRedirect('login');
+    }
+
     public function test_returns_correct_view(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $this->get('/arts/create')
             ->assertOk()
             ->assertViewIs('arts.create');
@@ -48,6 +56,16 @@ class CreateArtTest extends TestCase
         $this->assertTrue(file_exists($filePath));
         $this->assertSame('image/png', mime_content_type($filePath));
         $this->assertSame($artTitle, $art->title);
+    }
+
+    public function test_redirects_to_login_page_when_trying_to_create_art_when_not_logged_in(): void
+    {
+        $response = $this->post('/arts', [
+            'prompt' => 'Make art about happy dogs.',
+            'title' => 'Dancing pets',
+        ]);
+
+        $response->assertRedirect('login');
     }
 
     #[DataProvider('invalidApiKeyDataProvider')]
