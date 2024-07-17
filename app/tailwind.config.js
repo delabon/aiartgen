@@ -6,7 +6,11 @@ export default {
         "./resources/**/*.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'dribbble' : '#F8F7F4'
+            }
+        },
     },
     plugins: [],
 }
