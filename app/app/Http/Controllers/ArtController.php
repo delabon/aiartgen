@@ -49,7 +49,7 @@ class ArtController extends Controller
     {
         request()->validate([
             'prompt' => ['required', 'min:2', 'max:255'],
-            'title' => ['required', 'regex:/^[A-Za-z0-9\-]+$/', 'min:2', 'max:255'],
+            'title' => ['required', 'regex:/^[a-z0-9\- ]+$/i', 'min:2', 'max:255'],
         ]);
 
         try {

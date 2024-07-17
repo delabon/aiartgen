@@ -123,7 +123,7 @@ class CreateArtTest extends TestCase
                 ],
                 'sessionKey' => 'title'
             ],
-            'non alpha, numeric and dash title' => [
+            'non alpha, numeric space, and dash title' => [
                 'data' => [
                     'prompt' => 'Hello there',
                     'title' => 'My cool title <#$%!@!#%&*',
