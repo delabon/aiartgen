@@ -20,9 +20,17 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\View\View;
 
 class ArtController extends Controller
 {
+    public function index(): View
+    {
+        return view('arts.index', [
+            'arts' => Art::orderBy('id', 'desc')->simplePaginate(Config::get('services.pagination.per_page')),
+        ]);
+    }
+
     public function create(): RedirectResponse|Response
     {
         request()->validate([
