@@ -1,17 +1,17 @@
 <x-layout>
-    <h1 class="font-bold text-4xl">Explore inspiring designs</h1>
+    <h1 class="font-bold text-4xl text-center my-16">Explore inspiring art</h1>
 
-    <ul>
+    <div class="grid-cols-4 grid gap-4">
         @foreach ($arts as $art)
-        <li>
-            <a href="/arts/{{ $art->id }}">
-                <img src="{{ url('image/') . '/' . $art->id }}">
-            </a>
-        </li>
+            <div>
+                <a href="/arts/{{ $art->id }}">
+                    <img src="{{ url('image/') . '/' . $art->id }}">
+                </a>
+            </div>
         @endforeach
-    </ul>
+    </div>
 
-    <div>
+    <div class="mt-6">
         {{ $arts->links() }}
     </div>
 </x-layout>

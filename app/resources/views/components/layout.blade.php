@@ -12,9 +12,19 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-dribbble-500">
     <div class="mx-auto max-w-7xl">
+        <nav class="my-6">
+            <a href="/">
+                <span class="font-bold text-xl">AI.Art</span>
+            </a>
+        </nav>
+
         {{ $slot }}
+
+        <footer class="flex justify-center items-center my-8">
+            Made with <img class="mx-1" width="16" src="{{ asset('img/heart.svg') }}" alt="Love"> by <a href="https://delabon.com" class="ml-1 hover:underline">Sabri Taieb</a>
+        </footer>
     </div>
 </body>
 </html>
