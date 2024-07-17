@@ -44,6 +44,15 @@ return [
     ],
 
     'pagination' => [
-        'per_page' => env('APP_PAGINATION_PER_PAGE', 10)
+        'per_page' => env('APP_PAGINATION_PER_PAGE')
+    ],
+
+    'images' => [
+        'sizes' => [
+            'default' => [
+                'width' => env('APP_ART_WIDTH'),
+                'height' => env('APP_ART_HEIGHT'),
+            ]
+        ]
     ]
 ];

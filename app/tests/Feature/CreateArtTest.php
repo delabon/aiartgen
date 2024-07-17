@@ -13,21 +13,28 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 use Tests\Traits\ProvidesInvalidApiKeys;
 
-class ArtGenTest extends TestCase
+class CreateArtTest extends TestCase
 {
     use RefreshDatabase;
     use ProvidesInvalidApiKeys;
 
+    public function test_returns_correct_view(): void
+    {
+        $this->get('/arts/create')
+            ->assertOk()
+            ->assertViewIs('arts.create');
+    }
+
     public function test_user_generates_art_successfully(): void
     {
+        $artTitle = 'A cat that sings';
         $dir = env('APP_ART_GEN_DIR');
         $user = User::factory()->create();
         $this->actingAs($user);
 
         $response = $this->post('/arts', [
             'prompt' => 'Make art about a cat singer.',
-            'width' => 1024,
-            'height' => 1024,
+            'title' => $artTitle
         ]);
 
         $response->assertRedirect('/arts');
@@ -40,6 +47,7 @@ class ArtGenTest extends TestCase
         $this->assertSame($user->id, $art->user->id);
         $this->assertTrue(file_exists($filePath));
         $this->assertSame('image/png', mime_content_type($filePath));
+        $this->assertSame($artTitle, $art->title);
     }
 
     #[DataProvider('invalidApiKeyDataProvider')]
@@ -52,8 +60,7 @@ class ArtGenTest extends TestCase
 
         $response = $this->post('/arts', [
             'prompt' => 'Make art about happy dogs.',
-            'width' => 1024,
-            'height' => 1024,
+            'title' => 'Dancing pets',
         ]);
 
         $this->assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
@@ -78,88 +85,64 @@ class ArtGenTest extends TestCase
         return [
             'No prompt' => [
                 'data' => [
-                    'width' => 1024,
-                    'height' => 1024,
+                    'title' => 'Cool rabbits',
                 ],
                 'sessionKey' => 'prompt'
             ],
             'Empty prompt' => [
                 'data' => [
                     'prompt' => '',
-                    'width' => 1024,
-                    'height' => 1024,
+                    'title' => 'Cool rabbits',
                 ],
                 'sessionKey' => 'prompt'
             ],
             'Large prompt' => [
                 'data' => [
                     'prompt' => str_repeat('a', 345),
-                    'width' => 1024,
-                    'height' => 1024,
+                    'title' => 'Cool rabbits',
                 ],
                 'sessionKey' => 'prompt'
             ],
-            'No width' => [
+            'Small prompt' => [
                 'data' => [
-                    'prompt' => 'Hello there',
-                    'height' => 1024,
+                    'prompt' => 'a',
+                    'title' => 'Cool rabbits',
                 ],
-                'sessionKey' => 'width'
+                'sessionKey' => 'prompt'
             ],
-            'Empty width' => [
+            'No title' => [
                 'data' => [
                     'prompt' => 'Hello there',
-                    'width' => '',
-                    'height' => 1024,
                 ],
-                'sessionKey' => 'width'
+                'sessionKey' => 'title'
             ],
-            'Non number width' => [
+            'Empty title' => [
                 'data' => [
                     'prompt' => 'Hello there',
-                    'width' => 'five',
-                    'height' => 1024,
+                    'title' => '',
                 ],
-                'sessionKey' => 'width'
+                'sessionKey' => 'title'
             ],
-            'Width not 256, 516, or 1024' => [
+            'non alpha, numeric and dash title' => [
                 'data' => [
                     'prompt' => 'Hello there',
-                    'width' => 128,
-                    'height' => 1024,
+                    'title' => 'My cool title <#$%!@!#%&*',
                 ],
-                'sessionKey' => 'width'
+                'sessionKey' => 'title'
             ],
-            'No height' => [
+            'Large title' => [
                 'data' => [
-                    'prompt' => 'Hello there',
-                    'width' => 1024,
+                    'prompt' => 'Cool rabbits',
+                    'title' => str_repeat('a', 345),
                 ],
-                'sessionKey' => 'height'
+                'sessionKey' => 'title'
             ],
-            'Empty height' => [
+            'Small title' => [
                 'data' => [
-                    'prompt' => 'Hello there',
-                    'height' => '',
-                    'width' => 1024,
+                    'prompt' => 'Cool rabbits',
+                    'title' => 'a',
                 ],
-                'sessionKey' => 'height'
-            ],
-            'Non number height' => [
-                'data' => [
-                    'prompt' => 'Hello there',
-                    'width' => 1024,
-                    'height' => true,
-                ],
-                'sessionKey' => 'height'
-            ],
-            'Height not 256, 516, or 1024' => [
-                'data' => [
-                    'prompt' => 'Hello there',
-                    'width' => 1024,
-                    'height' => 64,
-                ],
-                'sessionKey' => 'height'
+                'sessionKey' => 'title'
             ],
         ];
     }

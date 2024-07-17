@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiServerDownException;
@@ -38,20 +40,24 @@ class ArtController extends Controller
         ]);
     }
 
-    public function create(): RedirectResponse|Response
+    public function create(): View
+    {
+        return view('arts.create');
+    }
+
+    public function store(): RedirectResponse|Response
     {
         request()->validate([
             'prompt' => ['required', 'min:2', 'max:255'],
-            'width' => ['required', 'numeric', 'in:256,512,1024'],
-            'height' => ['required', 'numeric', 'in:256,512,1024'],
+            'title' => ['required', 'regex:/^[A-Za-z0-9\-]+$/', 'min:2', 'max:255'],
         ]);
 
         try {
             $artGenerationApiService = new ArtGenerationApiService(Config::get('services.openai.api_key'), new Client());
             $artUrl = $artGenerationApiService->request(
                 request('prompt'),
-                (int)request('width'),
-                (int)request('height')
+                (int) Config::get('services.images.sizes.default.width'),
+                (int) Config::get('services.images.sizes.default.height')
             );
 
             $imageDownloadService = new ImageDownloadService(Config::get('services.dirs.arts'));
@@ -59,7 +65,8 @@ class ArtController extends Controller
 
             Art::create([
                 'filename' => basename($artPath),
-                'user_id' => Auth::user()->id
+                'title' => request('title'),
+                'user_id' => Auth::user()->id,
             ]);
 
             return redirect('/arts');
