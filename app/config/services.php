@@ -41,5 +41,9 @@ return [
 
     'dirs' => [
         'arts' => env('APP_ART_GEN_DIR')
+    ],
+
+    'pagination' => [
+        'per_page' => env('APP_PAGINATION_PER_PAGE', 10)
     ]
 ];
