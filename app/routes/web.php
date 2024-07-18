@@ -8,10 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/arts', [ArtController::class, 'index']);
-Route::post('/arts', [ArtController::class, 'store'])->middleware('auth');
-Route::get('/arts/create', [ArtController::class, 'create'])->middleware('auth');
-Route::get('/arts/{art}', [ArtController::class, 'show']);
+Route::prefix('/arts')->group(function () {
+    Route::get('/', [ArtController::class, 'index']);
+    Route::post('/', [ArtController::class, 'store'])->middleware('auth');
+    Route::get('/create', [ArtController::class, 'create'])->middleware('auth');
+    Route::get('/{art}', [ArtController::class, 'show']);
+});
 
 Route::get('/image/{art}', [ImageController::class, 'show']);
 
