@@ -18,10 +18,9 @@ Route::prefix('/arts')->controller(ArtController::class)->group(function () {
 
 Route::get('/image/{art}', [ImageController::class, 'show']);
 
-Route::get('/login', function () {
-    return view('login.create');
-})->name('login');
-
-Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+Route::prefix('/login')->controller(LoginController::class)->group(function () {
+    Route::get('/', 'create')->name('login');
+    Route::post('/', 'store')->name('login.store');
+});
 
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
