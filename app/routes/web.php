@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::prefix('/arts')->controller(ArtController::class)->group(function () {
     Route::get('/', 'index');
@@ -18,5 +19,7 @@ Route::prefix('/arts')->controller(ArtController::class)->group(function () {
 Route::get('/image/{art}', [ImageController::class, 'show']);
 
 Route::get('/login', function () {
-    return 'Login page';
+    return view('login.create');
 })->name('login');
+
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
