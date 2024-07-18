@@ -10,7 +10,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('/arts')->controller(ArtController::class)->group(function () {
-    Route::get('/', 'index');
+    Route::get('/', 'index')->name('arts.index');
     Route::post('/', 'store')->middleware('auth');
     Route::get('/create', 'create')->middleware('auth');
     Route::get('/{art}', 'show');

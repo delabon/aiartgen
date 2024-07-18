@@ -14,11 +14,49 @@
 </head>
 <body class="bg-dribbble-500">
     <div class="mx-auto max-w-7xl">
-        <nav class="my-6">
+        <header class="my-6 flex items-center justify-between relative">
             <a href="/">
                 <span class="font-bold text-xl">AI.Art</span>
             </a>
-        </nav>
+
+            <button id="dropdown-toggle">
+                <img src="{{ asset('img/menu.svg') }}" width="18" alt="Open menu" data-type="burger">
+                <img src="{{ asset('img/close.svg') }}" width="18" alt="Close menu" data-type="close" class="hidden">
+            </button>
+
+            <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute right-0 top-8">
+                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                        <a href="{{ route('home') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Art</a>
+                    </li>
+                    @auth
+                        <li>
+                            <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Settings</a>
+                        </li>
+                    @endauth
+                    @guest
+                        <li>
+                            <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Login</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Register</a>
+                        </li>
+                    @endguest
+                    @auth
+                        <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Log out</a>
+                        </li>
+                    @endauth
+                </ul>
+            </div>
+
+        </header>
 
         {{ $slot }}
 
