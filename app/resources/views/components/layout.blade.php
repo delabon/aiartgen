@@ -50,7 +50,10 @@
                     @endguest
                     @auth
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Log out</a>
+                            <form action="{{ route('logout') }}" method="post" class="w-full block">
+                                @csrf
+                                <button type="submit" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700 w-full text-left">Log out</button>
+                            </form>
                         </li>
                     @endauth
                 </ul>
