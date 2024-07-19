@@ -11,6 +11,12 @@
         </div>
 
         <div class="mb-5">
+            <x-form-label for="username">Username</x-form-label>
+            <x-form-input type="text" name="username" id="username" placeholder="john" :required="true" :value="old('username')"/>
+            <x-form-error name="username"/>
+        </div>
+
+        <div class="mb-5">
             <x-form-label for="email">Email</x-form-label>
             <x-form-input type="email" name="email" id="email" placeholder="john@example.com" :required="true" :value="old('email')"/>
             <x-form-error name="email"/>

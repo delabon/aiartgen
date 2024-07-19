@@ -34,7 +34,7 @@
                     </li>
                     @auth
                         <li>
-                            <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Profile</a>
+                            <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">My art</a>
                         </li>
                         <li>
                             <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Settings</a>

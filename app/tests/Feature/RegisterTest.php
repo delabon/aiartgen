@@ -24,6 +24,7 @@ class RegisterTest extends TestCase
         $email = 'john@example.com';
         $name = 'John Doe';
         $password = '123456789';
+        $username = 'johndoe';
 
         $response = $this->post('/register', [
             'email' => $email,
@@ -31,6 +32,7 @@ class RegisterTest extends TestCase
             'password' => $password,
             'password_confirmation' => $password,
             'name' => $name,
+            'username' => $username,
         ]);
 
         $response->assertRedirectToRoute('login');
@@ -39,6 +41,7 @@ class RegisterTest extends TestCase
         $this->assertCount(1, $users);
         $this->assertSame($email, $users[0]->email);
         $this->assertSame($name, $users[0]->name);
+        $this->assertSame($username, $users[0]->username);
         $this->assertNotEquals($password, $users[0]->password);
     }
 
@@ -47,6 +50,8 @@ class RegisterTest extends TestCase
         $email = 'john@example.com';
         $name = 'John Doe';
         $password = '123456789';
+        $username = 'johndoe';
+
         User::factory()->create([
             'email' => $email,
         ]);
@@ -57,10 +62,37 @@ class RegisterTest extends TestCase
             'password' => $password,
             'password_confirmation' => $password,
             'name' => $name,
+            'username' => $username,
         ]);
 
-        $response->assertRedirectToRoute('register.create');
         $response->assertSessionHasErrors(['email']);
+
+        $users = User::all();
+
+        $this->assertCount(1, $users);
+    }
+
+    public function test_registration_fails_with_duplicate_username(): void
+    {
+        $email = 'john@example.com';
+        $name = 'John Doe';
+        $password = '123456789';
+        $username = 'johndoe';
+
+        User::factory()->create([
+            'username' => $username,
+        ]);
+
+        $response = $this->post('/register', [
+            'email' => $email,
+            'email_confirmation' => $email,
+            'password' => $password,
+            'password_confirmation' => $password,
+            'name' => $name,
+            'username' => $username,
+        ]);
+
+        $response->assertSessionHasErrors(['username']);
 
         $users = User::all();
 
@@ -83,6 +115,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'name' => 'John Doe',
                     'password' => '13124445',
+                    'username' => 'johndoe',
                 ],
                 'errorKey' => 'email'
             ],
@@ -90,6 +123,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => '',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => '13124445',
                 ],
                 'errorKey' => 'email'
@@ -98,6 +132,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'jkaskdk $@#%',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => '13124445',
                 ],
                 'errorKey' => 'email'
@@ -106,6 +141,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => '3424324'
                 ],
                 'errorKey' => 'email'
@@ -113,6 +149,7 @@ class RegisterTest extends TestCase
             'No password' => [
                 'data' => [
                     'email' => 'john@example.com',
+                    'username' => 'johndoe',
                     'name' => 'John Doe',
                 ],
                 'errorKey' => 'password'
@@ -121,6 +158,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => ''
                 ],
                 'errorKey' => 'password'
@@ -129,6 +167,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => 'dw'
                 ],
                 'errorKey' => 'password'
@@ -137,6 +176,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => str_repeat('a', 345)
                 ],
                 'errorKey' => 'password'
@@ -145,6 +185,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'name' => 'John Doe',
+                    'username' => 'johndoe',
                     'password' => str_repeat('a', 345)
                 ],
                 'errorKey' => 'password'
@@ -152,6 +193,7 @@ class RegisterTest extends TestCase
             'No name' => [
                 'data' => [
                     'email' => 'john@example.com',
+                    'username' => 'johndoe',
                     'password' => 'asd3e2q4'
                 ],
                 'errorKey' => 'name'
@@ -159,6 +201,7 @@ class RegisterTest extends TestCase
             'Empty name' => [
                 'data' => [
                     'email' => 'john@example.com',
+                    'username' => 'johndoe',
                     'password' => 'asd3e2q4',
                     'name' => ''
                 ],
@@ -168,6 +211,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'password' => 'asd3e2q4',
+                    'username' => 'johndoe',
                     'name' => 'a'
                 ],
                 'errorKey' => 'name'
@@ -176,6 +220,7 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'password' => 'asd3e2q4',
+                    'username' => 'johndoe',
                     'name' => str_repeat('a', 257),
                 ],
                 'errorKey' => 'name'
@@ -184,9 +229,54 @@ class RegisterTest extends TestCase
                 'data' => [
                     'email' => 'john@example.com',
                     'password' => 'asd3e2q4',
+                    'username' => 'johndoe',
                     'name' => 'asdlasd #$%$#%^ sd;.,/',
                 ],
                 'errorKey' => 'name'
+            ],
+            'No username' => [
+                'data' => [
+                    'name' => 'John Doe',
+                    'password' => '13124445',
+                    'email' => 'john@example.com',
+                ],
+                'errorKey' => 'username'
+            ],
+            'Empty username' => [
+                'data' => [
+                    'name' => 'John Doe',
+                    'password' => '13124445',
+                    'email' => 'john@example.com',
+                    'username' => '',
+                ],
+                'errorKey' => 'username'
+            ],
+            'Invalid username' => [
+                'data' => [
+                    'name' => 'John Doe',
+                    'password' => '13124445',
+                    'email' => 'john@example.com',
+                    'username' => 'asl12340 #!@$8679- sdd',
+                ],
+                'errorKey' => 'username'
+            ],
+            'Small username' => [
+                'data' => [
+                    'name' => 'John Doe',
+                    'password' => '13124445',
+                    'email' => 'john@example.com',
+                    'username' => 'a',
+                ],
+                'errorKey' => 'username'
+            ],
+            'Large username' => [
+                'data' => [
+                    'name' => 'John Doe',
+                    'password' => '13124445',
+                    'email' => 'john@example.com',
+                    'username' => str_repeat('a', 51),
+                ],
+                'errorKey' => 'username'
             ],
         ];
     }
