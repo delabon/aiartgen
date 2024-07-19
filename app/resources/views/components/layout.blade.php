@@ -45,7 +45,7 @@
                             <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Login</a>
                         </li>
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Register</a>
+                            <a href="{{ route('register.create') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Register</a>
                         </li>
                     @endguest
                     @auth
