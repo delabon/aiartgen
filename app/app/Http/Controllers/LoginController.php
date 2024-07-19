@@ -17,14 +17,10 @@ class LoginController extends Controller
 
     public function store(): RedirectResponse
     {
-        try {
-            $attributes = request()->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required', 'min:5', 'max:20']
-            ]);
-        } catch (ValidationException $e) {
-            return to_route('login')->withErrors($e->errors());
-        }
+        $attributes = request()->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:5', 'max:20']
+        ]);
 
         if (!Auth::attempt($attributes)) {
             return to_route('login')->withErrors([

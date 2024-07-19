@@ -73,7 +73,6 @@ class LoginTest extends TestCase
     {
         $response = $this->post('/login', $data);
 
-        $response->assertRedirectToRoute('login');
         $response->assertSessionHasErrors([$errorKey]);
         $this->assertFalse(Auth::check());
     }
