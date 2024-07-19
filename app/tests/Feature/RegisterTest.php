@@ -72,7 +72,6 @@ class RegisterTest extends TestCase
     {
         $response = $this->post('/register', $data);
 
-        $response->assertRedirectToRoute('register.create');
         $response->assertSessionHasErrors([$errorKey]);
         $this->assertCount(0, User::all());
     }

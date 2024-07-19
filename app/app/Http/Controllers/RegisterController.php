@@ -18,21 +18,19 @@ class RegisterController extends Controller
 
     public function store(): RedirectResponse
     {
+        $attributes = request()->validate([
+            'email' => ['required', 'email', 'confirmed'],
+            'password' => ['required', 'min:5', 'max:20', 'confirmed'],
+            'name' => ['required', 'min:3', 'max:50', 'regex:/^[a-z][a-z ]+$/i'],
+        ]);
+
         try
         {
-            $attributes = request()->validate([
-                'email' => ['required', 'email', 'confirmed'],
-                'password' => ['required', 'min:5', 'max:20', 'confirmed'],
-                'name' => ['required', 'min:3', 'max:50', 'regex:/^[a-z][a-z ]+$/i'],
-            ]);
-
             User::create($attributes);
         } catch (UniqueConstraintViolationException $e) {
             return to_route('register.create')->withErrors([
                 'email' => 'The email address exists.'
             ]);
-        } catch (ValidationException $e) {
-            return to_route('register.create')->withErrors($e->errors());
         }
 
         return to_route('login');
