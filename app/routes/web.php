@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,3 +25,8 @@ Route::prefix('/login')->controller(LoginController::class)->group(function () {
 });
 
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+
+Route::prefix('/register')->controller(RegisterController::class)->group(function () {
+    Route::get('/', 'create')->name('register.create');
+    Route::post('/', 'store')->name('register.store');
+});
