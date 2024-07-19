@@ -15,7 +15,7 @@
 <body class="bg-dribbble-500">
     <div class="mx-auto max-w-7xl">
         <header class="my-6 flex items-center justify-between relative">
-            <a href="/">
+            <a href="{{ route('home') }}">
                 <span class="font-bold text-xl">AI.Art</span>
             </a>
 
