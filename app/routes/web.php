@@ -14,10 +14,11 @@ Route::prefix('/arts')->controller(ArtController::class)->group(function () {
     Route::get('/', 'index')->name('arts.index');
     Route::post('/', 'store')->middleware('auth');
     Route::get('/create', 'create')->middleware('auth');
-    Route::get('/{art}', 'show');
+    Route::get('/@/{user:username}', 'userArt')->name('arts.user.art');
+    Route::get('/{art}', 'show')->name('arts.show');
 });
 
-Route::get('/image/{art}', [ImageController::class, 'show']);
+Route::get('/image/{art}', [ImageController::class, 'show'])->name('image.show');
 
 Route::prefix('/login')->controller(LoginController::class)->group(function () {
     Route::get('/', 'create')->name('login');

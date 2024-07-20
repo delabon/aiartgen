@@ -12,17 +12,17 @@ use App\Exceptions\InvalidImageException;
 use App\Exceptions\InvalidRegionException;
 use App\Exceptions\RateLimitException;
 use App\Models\Art;
+use App\Models\User;
 use App\Services\ArtGenerationApiService;
 use App\Services\ImageDownloadService;
 use ErrorException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\View\View;
 
 class ArtController extends Controller
 {
@@ -85,5 +85,18 @@ class ArtController extends Controller
         } catch (ApiServerDownException|GuzzleException|ErrorException $e) {
             return new Response($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function userArt(User $user): View
+    {
+        $arts = Art::with('user')
+            ->where('user_id', '=', $user->id)
+            ->orderBy('id', 'desc')
+            ->paginate(Config::get('services.pagination.per_page'));
+
+        return view('arts.user-art', [
+            'arts' => $arts,
+            'user' => $user
+        ]);
     }
 }
