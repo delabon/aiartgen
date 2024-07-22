@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Art;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 class DeleteArtTest extends TestCase
@@ -13,16 +14,17 @@ class DeleteArtTest extends TestCase
 
     private ?User $user;
     private ?Art $art;
+    private ?string $filename;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
-
         $this->art = Art::factory()->create([
             'user_id' => $this->user->id,
         ]);
+        $this->filename = $this->art->filename;
     }
 
     protected function tearDown(): void
@@ -44,6 +46,7 @@ class DeleteArtTest extends TestCase
         ]);
 
         $this->assertCount(0, Art::all());
+        $this->assertFalse(file_exists(Config::get('services.dirs.arts') . '/' . $this->filename));
     }
 
     public function test_returns_not_found_response_when_art_does_not_exist(): void

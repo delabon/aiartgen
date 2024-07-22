@@ -122,6 +122,7 @@ class ArtController extends Controller
 
     public function destroy(Art $art): RedirectResponse
     {
+        @unlink(Config::get('services.dirs.arts') . '/' . $art->filename);
         $art->delete();
 
         return to_route('arts.user.art', [
