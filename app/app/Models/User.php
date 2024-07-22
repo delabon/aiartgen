@@ -42,6 +42,9 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * @return HasMany<Art>
+     */
     public function arts(): HasMany
     {
         return $this->hasMany(Art::class);
