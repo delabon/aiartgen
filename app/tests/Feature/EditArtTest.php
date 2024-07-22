@@ -60,6 +60,14 @@ class EditArtTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_returns_not_found_response_when_trying_to_access_edit_page_when_art_does_not_exist(): void
+    {
+        $this->actingAs($this->user);
+
+        $this->get('/arts/' . 94359859 . '/edit')
+            ->assertNotFound();
+    }
+
     public function test_user_edits_art_successfully(): void
     {
         $updatedTitle = 'My updated title';
@@ -95,6 +103,15 @@ class EditArtTest extends TestCase
 
         $this->assertSame($this->art->title, $refreshedArt->title);
         $this->assertTrue($this->art->updated_at->eq($refreshedArt->updated_at));
+    }
+
+    public function test_returns_not_found_response_when_trying_to_edit_non_existent_art(): void
+    {
+        $this->actingAs($this->user);
+
+        $this->patch('/arts/' . 4566456, [
+            'title' => 'My updated title'
+        ])->assertNotFound();
     }
 
     public function test_editing_art_fails_when_not_the_owner(): void
