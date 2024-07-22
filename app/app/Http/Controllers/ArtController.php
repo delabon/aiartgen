@@ -119,4 +119,13 @@ class ArtController extends Controller
             'art' => $art
         ]);
     }
+
+    public function destroy(Art $art): RedirectResponse
+    {
+        $art->delete();
+
+        return to_route('arts.user.art', [
+            'user' => $art->user
+        ]);
+    }
 }

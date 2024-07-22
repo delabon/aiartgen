@@ -16,6 +16,7 @@ Route::prefix('/arts')->name('arts.')->controller(ArtController::class)->group(f
     Route::get('/create', 'create')->name('create')->middleware('auth');
     Route::get('/{art}/edit', 'edit')->name('edit')->middleware('auth')->can('edit', 'art');
     Route::patch('/{art}', 'update')->name('update')->middleware('auth')->can('edit', 'art');
+    Route::delete('/{art}', 'destroy')->name('destroy')->middleware('auth')->can('edit', 'art');
     Route::get('/@/{user:username}', 'userArt')->name('user.art');
     Route::get('/{art}', 'show')->name('show');
 });

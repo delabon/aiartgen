@@ -13,7 +13,11 @@
                 <div class="flex items-center">
                     <a href="{{ route('arts.edit', ['art' => $art]) }}" class="hover:underline">Edit art</a>
                     <span class="mx-1">/</span>
-                    <a href="#" class="hover:underline">Delete art</a>
+                    <form action="{{ route('arts.destroy', ['art' => $art]) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="hover:underline">Delete art</button>
+                    </form>
                 </div>
             @endcan
         </div>
