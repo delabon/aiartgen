@@ -100,15 +100,20 @@ class ArtController extends Controller
         ]);
     }
 
+    public function edit(Art $art): View
+    {
+        return view('arts.edit', [
+            'art' => $art
+        ]);
+    }
+
     public function update(Art $art): RedirectResponse
     {
         $attributes = request()->validate([
             'title' => ['required', 'regex:/^[a-z0-9\- ]+$/i', 'min:2', 'max:255'],
         ]);
 
-        $art->update([
-            'title' => request('title')
-        ]);
+        $art->update($attributes);
 
         return to_route('arts.show', [
             'art' => $art

@@ -13,8 +13,9 @@ Route::get('/', function () {
 Route::prefix('/arts')->name('arts.')->controller(ArtController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->middleware('auth');
-    Route::patch('/{art}', 'update')->name('update')->middleware('auth')->can('edit-art', 'art');
     Route::get('/create', 'create')->name('create')->middleware('auth');
+    Route::get('/{art}/edit', 'edit')->name('edit')->middleware('auth')->can('edit', 'art');
+    Route::patch('/{art}', 'update')->name('update')->middleware('auth')->can('edit', 'art');
     Route::get('/@/{user:username}', 'userArt')->name('user.art');
     Route::get('/{art}', 'show')->name('show');
 });

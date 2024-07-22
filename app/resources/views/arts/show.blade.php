@@ -8,11 +8,14 @@
             <div>
                 By <a href="{{ route('arts.user.art', ['user' => $art->user]) }}" class="hover:underline"><strong>{{ ucwords($art->user->name) }}</strong></a>
             </div>
-            <div class="flex items-center">
-                <a href="#" class="hover:underline">Edit art</a>
-                <span class="mx-1">/</span>
-                <a href="#" class="hover:underline">Delete art</a>
-            </div>
+
+            @can('edit', $art)
+                <div class="flex items-center">
+                    <a href="{{ route('arts.edit', ['art' => $art]) }}" class="hover:underline">Edit art</a>
+                    <span class="mx-1">/</span>
+                    <a href="#" class="hover:underline">Delete art</a>
+                </div>
+            @endcan
         </div>
     </div>
 
