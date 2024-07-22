@@ -13,7 +13,7 @@ Route::get('/', function () {
 Route::prefix('/arts')->name('arts.')->controller(ArtController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->middleware('auth');
-    Route::get('/create', 'create')->middleware('auth');
+    Route::get('/create', 'create')->name('create')->middleware('auth');
     Route::get('/@/{user:username}', 'userArt')->name('user.art');
     Route::get('/{art}', 'show')->name('show');
 });
