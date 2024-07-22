@@ -8,7 +8,7 @@
                     <a href="/arts/{{ $art->id }}">
                         <img src="{{ route('image.show', ['art' => $art]) }}">
                     </a>
-                    <a href="/artist/{{ $art->user->id }}">{{ $art->user->name }}</a>
+                    <a href="/artist/{{ $art->user->id }}">{{ ucwords($art->user->name) }}</a>
                 </div>
             @endforeach
         </div>
