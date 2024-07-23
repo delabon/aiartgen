@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Art;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ShowArtTest extends TestCase
@@ -22,7 +21,6 @@ class ShowArtTest extends TestCase
 
     public function test_contains_correct_art(): void
     {
-        $imageBaseUrl = url('/image');
         $artTitle = 'Amazing Art';
         $art = Art::factory()->create([
             'title' => $artTitle
@@ -31,8 +29,8 @@ class ShowArtTest extends TestCase
         $response = $this->get('/arts/' . $art->id);
 
         $response->assertOk();
-        $response->assertSee($imageBaseUrl . '/' . $art->id);
-        $response->assertSee('/artist/' . $art->user->id);
+        $response->assertSee(route('image.show', ['art' => $art]));
+        $response->assertSee(route('arts.user.art', ['user' => $art->user]));
         $response->assertSeeText($art->user->name);
         $response->assertSeeText($artTitle);
     }
