@@ -21,8 +21,6 @@ class ListArtsTest extends TestCase
 
     public function test_contains_correct_arts(): void
     {
-        $imageBaseUrl = url('/image');
-
         $arts = Art::factory(3)->create();
 
         $response = $this->get('/arts');
@@ -30,7 +28,7 @@ class ListArtsTest extends TestCase
         $response->assertOk();
 
         foreach ($arts as $art) {
-            $response->assertSee($imageBaseUrl . '/' . $art->id);
+            $response->assertSee(route('image.show', ['art' => $art]));
         }
     }
 
