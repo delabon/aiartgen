@@ -4,6 +4,7 @@ use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,4 +34,10 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 Route::prefix('/register')->name('register.')->controller(RegisterController::class)->group(function () {
     Route::get('/', 'create')->name('create');
     Route::post('/', 'store')->name('store');
+});
+
+Route::prefix('/settings')->name('settings.')->controller(SettingsController::class)->group(function () {
+    Route::get('/', 'edit')->name('edit')->middleware('auth');
+    Route::patch('/basic', 'updateBasic')->name('update.basic')->middleware('auth');
+    Route::patch('/password', 'updatePassword')->name('update.password')->middleware('auth');
 });

@@ -40,7 +40,7 @@
                             <a href="{{ route('arts.create') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Generate art</a>
                         </li>
                         <li>
-                            <a href="{{ route('arts.index') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Settings</a>
+                            <a href="{{ route('settings.edit') }}" class="block px-4 py-2 hover:bg-gray-100 hover:text-dark-700">Settings</a>
                         </li>
                     @endauth
                     @guest
