@@ -37,7 +37,6 @@ class ListArtsTest extends TestCase
     public function test_paginates_arts_in_desc_order_correctly(): void
     {
         Config::set('services.pagination.per_page', 2);
-        $imageBaseUrl = url('/image');
         $artUrls = [];
         $artistUrls = [];
         $artistNames = [];
@@ -47,8 +46,8 @@ class ListArtsTest extends TestCase
         $response->assertOk();
 
         for ($i = 2; $i > 0; $i--) {
-            $artUrls[] = $imageBaseUrl . '/' . $arts[$i]->id;
-            $artistUrls[] = "/artist/{$arts[$i]->user->id}";
+            $artUrls[] = route('image.show', ['art' => $arts[$i]]);
+            $artistUrls[] = route('arts.user.art', ['user' => $arts[$i]->user]);
             $artistNames[] = $arts[$i]->user->name;
         }
 
@@ -56,7 +55,7 @@ class ListArtsTest extends TestCase
         $response->assertSeeInOrder($artistUrls);
         $response->assertSeeTextInOrder($artistNames);
 
-        $response->assertDontSee($imageBaseUrl . '/' . $arts[0]->id);
+        $response->assertDontSee(route('image.show', ['art' => $arts[0]]));
 
         $response->assertSee('arts?page=2');
     }
