@@ -18,5 +18,6 @@ class LogoutTest extends TestCase
         $response = $this->delete('/logout');
 
         $response->assertRedirectToRoute('home');
+        $response->assertSessionHas('success', 'You have signed-out successfully.');
     }
 }

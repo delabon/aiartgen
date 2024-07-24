@@ -35,6 +35,7 @@ class LoginController extends Controller
     public function destroy(): RedirectResponse
     {
         Auth::logout();
+        session()->flash('success', 'You have signed-out successfully.');
 
         return to_route('home');
     }
