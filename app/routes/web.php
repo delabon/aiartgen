@@ -29,7 +29,7 @@ Route::prefix('/login')->controller(LoginController::class)->group(function () {
     Route::post('/', 'store')->name('login.store');
 });
 
-Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
 
 Route::prefix('/register')->name('register.')->controller(RegisterController::class)->group(function () {
     Route::get('/', 'create')->name('create');

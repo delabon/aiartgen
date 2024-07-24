@@ -15,7 +15,7 @@ class LogoutTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $response = $this->post('/logout');
+        $response = $this->delete('/logout');
 
         $response->assertRedirectToRoute('home');
     }
