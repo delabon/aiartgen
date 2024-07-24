@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
@@ -35,6 +34,25 @@ class LoginTest extends TestCase
         $response->assertRedirectToRoute('home');
         $this->assertTrue(Auth::check());
         $this->assertSame(Auth::user()->id, $user->id);
+    }
+
+    public function test_regenerates_session_id_after_login_successfully(): void
+    {
+        $password = '9983484';
+        $user = User::factory()->create([
+            'password' => $password
+        ]);
+
+        $oldSessionId = session()->getId();
+
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => $password,
+        ]);
+
+        $newSessionId = session()->getId();
+
+        $this->assertNotSame($oldSessionId, $newSessionId);
     }
 
     public function test_redirects_to_login_page_with_error_when_invalid_password(): void
