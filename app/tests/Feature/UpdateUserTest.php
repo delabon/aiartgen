@@ -61,6 +61,7 @@ class UpdateUserTest extends TestCase
         $response = $this->patch('/settings/basic', $updatedData);
 
         $response->assertRedirectToRoute('settings.edit');
+        $response->assertSessionHas('success', 'You settings have been updated.');
 
         $refreshedUser = User::find($this->user->id);
 
@@ -266,6 +267,7 @@ class UpdateUserTest extends TestCase
         $response = $this->patch('/settings/password', $updatedData);
 
         $response->assertRedirectToRoute('settings.edit');
+        $response->assertSessionHas('success', 'You password has been updated.');
 
         $refreshedUser = $this->user->refresh();
 

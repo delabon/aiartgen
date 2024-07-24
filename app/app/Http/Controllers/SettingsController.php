@@ -22,8 +22,8 @@ class SettingsController extends Controller
             'username' => ['required', 'min:3', 'max:50', 'regex:/^[a-z0-9\_]+$/', Rule::unique('users')->ignore(Auth::user()->username)],
             'email' => ['required', 'email', Rule::unique('users')->ignore(Auth::user()->email)],
         ]);
-
         Auth::user()->update($attributes);
+        session()->flash('success', 'You settings have been updated.');
 
         return to_route('settings.edit');
     }
@@ -44,6 +44,7 @@ class SettingsController extends Controller
         Auth::user()->update([
             'password' => $attributes['password']
         ]);
+        session()->flash('success', 'You password has been updated.');
 
         return to_route('settings.edit');
     }
