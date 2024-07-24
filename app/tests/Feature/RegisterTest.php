@@ -35,6 +35,8 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertRedirectToRoute('login');
+        $response->assertSessionHas('success', 'Your account has been created.');
+
         $users = User::all();
 
         $this->assertCount(1, $users);

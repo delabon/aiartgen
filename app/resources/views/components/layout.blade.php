@@ -62,8 +62,13 @@
                     @endauth
                 </ul>
             </div>
-
         </header>
+
+        @if (session()->has('success'))
+            <div class="p-4 mb-4 text-sm border border-slate-950 rounded-lg" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
 
         {{ $slot }}
 
