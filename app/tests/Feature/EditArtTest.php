@@ -80,6 +80,7 @@ class EditArtTest extends TestCase
         $response->assertRedirectToRoute('arts.show', [
             'art' => $this->art
         ]);
+        $response->assertSessionHas('success', 'Your art has been updated.');
 
         $updatedArt = Art::find($this->art->id);
 

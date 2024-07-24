@@ -45,6 +45,7 @@ class CreateArtTest extends TestCase
         ]);
 
         $response->assertRedirect('/arts');
+        $response->assertSessionHas('success', 'Your art has been generated.');
 
         $art = Art::first();
         $filePath = $dir . '/' . $art->filename;

@@ -44,6 +44,7 @@ class DeleteArtTest extends TestCase
         $response->assertRedirectToRoute('arts.user.art', [
             'user' => $this->user
         ]);
+        $response->assertSessionHas('success', 'Your art has been deleted.');
 
         $this->assertCount(0, Art::all());
         $this->assertFalse(file_exists(Config::get('services.dirs.arts') . '/' . $this->filename));

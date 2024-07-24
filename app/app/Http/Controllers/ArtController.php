@@ -68,6 +68,7 @@ class ArtController extends Controller
                 'title' => request('title'),
                 'user_id' => Auth::user()->id,
             ]);
+            session()->flash('success', 'Your art has been generated.');
 
             return redirect('/arts');
         } catch (InvalidApiKeyException $e) {
@@ -114,6 +115,7 @@ class ArtController extends Controller
         ]);
 
         $art->update($attributes);
+        session()->flash('success', 'Your art has been updated.');
 
         return to_route('arts.show', [
             'art' => $art
@@ -124,6 +126,7 @@ class ArtController extends Controller
     {
         @unlink(Config::get('services.dirs.arts') . '/' . $art->filename);
         $art->delete();
+        session()->flash('success', 'Your art has been deleted.');
 
         return to_route('arts.user.art', [
             'user' => $art->user
