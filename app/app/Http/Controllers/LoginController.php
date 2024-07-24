@@ -27,6 +27,7 @@ class LoginController extends Controller
         }
 
         session()->regenerate();
+        session()->flash('success', 'You have signed-in successfully.');
 
         return to_route('home');
     }

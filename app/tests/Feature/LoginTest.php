@@ -32,6 +32,7 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertRedirectToRoute('home');
+        $response->assertSessionHas('success', 'You have signed-in successfully.');
         $this->assertTrue(Auth::check());
         $this->assertSame(Auth::user()->id, $user->id);
     }
