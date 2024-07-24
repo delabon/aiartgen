@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Art;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
