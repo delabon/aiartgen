@@ -28,6 +28,8 @@ class LoginController extends Controller
             ]);
         }
 
+        session()->regenerate();
+
         return to_route('home');
     }
 
