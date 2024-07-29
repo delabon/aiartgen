@@ -50,5 +50,5 @@ jobs:
         working-directory: app
 
       - name: PHPStan tests
-        run: vendor/bin/phpstan analyse
+        run: vendor/bin/phpstan --memory-limit=1G analyse
         working-directory: app
