@@ -38,7 +38,7 @@ class UserTest extends TestCase
 
         $user->sendPasswordResetNotification('My Fake Token');
 
-        Mail::assertSent(PasswordResetMail::class, function ($mail) use ($email) {
+        Mail::assertQueued(PasswordResetMail::class, function ($mail) use ($email) {
             return $mail->hasTo($email);
         });
     }

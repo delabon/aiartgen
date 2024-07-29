@@ -65,6 +65,6 @@ class User extends Authenticatable implements CanResetPassword
     public function sendPasswordResetNotification($token): void
     {
         Mail::to($this->email)
-            ->send(new PasswordResetMail($this, $token));
+            ->queue(new PasswordResetMail($this, $token));
     }
 }

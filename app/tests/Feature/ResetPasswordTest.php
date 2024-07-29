@@ -48,7 +48,7 @@ class ResetPasswordTest extends TestCase
         $this->assertCount(1, $tokens);
         $this->assertSame($email, $tokens[0]->email);
 
-        Mail::assertSent(PasswordResetMail::class, function ($mail) use ($email) {
+        Mail::assertQueued(PasswordResetMail::class, function ($mail) use ($email) {
             return $mail->hasTo($email);
         });
     }
