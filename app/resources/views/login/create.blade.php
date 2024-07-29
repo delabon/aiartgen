@@ -16,7 +16,10 @@
             <x-form-error name="password"/>
         </div>
 
-        <x-form-button>Login</x-form-button>
+        <div class="flex items-center">
+            <x-form-button>Login</x-form-button>
+            <a href="{{ route('password.reset.create') }}" class="ml-3">Reset password</a>
+        </div>
     </form>
 
 </x-layout>
