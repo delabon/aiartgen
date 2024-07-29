@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArtController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,17 @@ Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
 Route::prefix('/register')->name('register.')->controller(RegisterController::class)->group(function () {
     Route::get('/', 'create')->name('create');
     Route::post('/', 'store')->name('store');
+});
+
+Route::prefix('/password-reset')->name('password.reset.')->controller(PasswordResetController::class)->group(function () {
+    Route::get('/', 'create')->name('create');
+    Route::post('/send', 'store')->name('store');
+    Route::get('/{token}-{user}', 'edit')->name('edit')->where([
+        'user' => '[0-9]+'
+    ]);
+    Route::patch('/{user}', 'update')->name('update')->where([
+        'user' => '[0-9]+'
+    ]);
 });
 
 Route::prefix('/settings')->name('settings.')->controller(SettingsController::class)->group(function () {
