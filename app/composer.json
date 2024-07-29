@@ -5,8 +5,9 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "ext-fileinfo": "*",
         "php": "^8.2",
+        "ext-fileinfo": "*",
+        "aws/aws-sdk-php": "^3.316",
         "bluemmb/faker-picsum-photos-provider": "^2.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9"
