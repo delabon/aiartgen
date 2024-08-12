@@ -51,4 +51,5 @@ Route::prefix('/settings')->name('settings.')->controller(SettingsController::cl
     Route::get('/', 'edit')->name('edit')->middleware('auth');
     Route::patch('/basic', 'updateBasic')->name('update.basic')->middleware('auth');
     Route::patch('/password', 'updatePassword')->name('update.password')->middleware('auth');
+    Route::delete('/delete-account', 'destroy')->name('destroy')->middleware('auth');
 });

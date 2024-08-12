@@ -48,4 +48,14 @@ class SettingsController extends Controller
 
         return to_route('settings.edit');
     }
+
+    public function destroy(): RedirectResponse
+    {
+        $user = Auth::user();
+        Auth::logout();
+        $user->delete();
+        session()->flash('success', 'Your account has been deleted.');
+
+        return to_route('register.create');
+    }
 }
