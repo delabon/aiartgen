@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordResetController;
@@ -8,9 +9,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('/arts')->name('arts.')->controller(ArtController::class)->group(function () {
     Route::get('/', 'index')->name('index');
