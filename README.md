@@ -45,6 +45,12 @@ docker-compose up --build -d
 docker exec -it php-container bash
 ```
 
+### Run composer
+
+```bash
+composer install
+```
+
 ### Npm
 
 ```bash
