@@ -26,6 +26,12 @@ class LoginController extends Controller
             ]);
         }
 
+        if (!Auth::user()->hasVerifiedEmail()) {
+            Auth::logout();
+
+            return to_route('login')->with('error', 'You need to verify your email address.');
+        }
+
         session()->regenerate();
         session()->flash('success', 'You have signed-in successfully.');
 

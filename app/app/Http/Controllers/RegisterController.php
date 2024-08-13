@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Notification;
 
 class RegisterController extends Controller
 {
@@ -22,7 +24,9 @@ class RegisterController extends Controller
             'username' => ['required', 'min:3', 'max:50', 'regex:/^[a-z0-9\_]+$/', 'unique:users']
         ]);
 
-        User::create($attributes);
+        $user = User::create($attributes);
+
+        Notification::send($user, new VerifyEmail());
 
         session()->flash('success', 'Your account has been created.');
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LoginController;
@@ -53,3 +54,7 @@ Route::prefix('/settings')->name('settings.')->controller(SettingsController::cl
     Route::patch('/password', 'updatePassword')->name('update.password')->middleware('auth');
     Route::delete('/delete-account', 'destroy')->name('destroy')->middleware('auth');
 });
+
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify')->where([
+    'id' => '[0-9]+',
+]);

@@ -3,7 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -20,6 +23,8 @@ class RegisterTest extends TestCase
 
     public function test_registers_user_successfully(): void
     {
+        Notification::fake();
+
         $email = 'john@example.com';
         $name = 'John Doe';
         $password = '123456789';
@@ -44,6 +49,8 @@ class RegisterTest extends TestCase
         $this->assertSame($name, $users[0]->name);
         $this->assertSame($username, $users[0]->username);
         $this->assertNotEquals($password, $users[0]->password);
+
+        Notification::assertSentTo($users[0], VerifyEmail::class);
     }
 
     public function test_registration_fails_with_duplicate_email(): void
@@ -280,5 +287,24 @@ class RegisterTest extends TestCase
                 'errorKey' => 'username'
             ],
         ];
+    }
+
+    public function test_keeps_new_user_logged_out_after_registration(): void
+    {
+        $email = 'jane@example.com';
+        $name = 'Jane Doe';
+        $password = '123456789';
+        $username = 'jane';
+
+        $response = $this->post('/register', [
+            'email' => $email,
+            'email_confirmation' => $email,
+            'password' => $password,
+            'password_confirmation' => $password,
+            'name' => $name,
+            'username' => $username,
+        ]);
+
+        $this->assertFalse(Auth::check());
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Mail\PasswordResetMail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -14,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 
-class User extends Authenticatable implements CanResetPassword
+class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -66,5 +67,25 @@ class User extends Authenticatable implements CanResetPassword
     {
         Mail::to($this->email)
             ->queue(new PasswordResetMail($this, $token));
+    }
+
+    public function hasVerifiedEmail(): bool
+    {
+        return (bool)$this->email_verified_at;
+    }
+
+    public function markEmailAsVerified(): void
+    {
+        $this->email_verified_at = now();
+    }
+
+    public function getEmailForVerification(): ?string
+    {
+        return $this->email;
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmail());
     }
 }

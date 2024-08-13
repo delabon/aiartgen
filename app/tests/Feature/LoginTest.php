@@ -148,4 +148,21 @@ class LoginTest extends TestCase
             ],
         ];
     }
+
+    public function test_prevents_login_when_user_email_is_unverified(): void
+    {
+        $password = '123456789';
+        $user = User::factory()->unverified()->create([
+            'password' => $password
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => $password,
+        ]);
+
+        $response->assertRedirectToRoute('login');
+        $response->assertSessionHas('error', 'You need to verify your email address.');
+        $this->assertFalse(Auth::check());
+    }
 }
