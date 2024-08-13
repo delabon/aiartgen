@@ -74,9 +74,11 @@ class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
         return (bool)$this->email_verified_at;
     }
 
-    public function markEmailAsVerified(): void
+    public function markEmailAsVerified(): bool
     {
-        $this->email_verified_at = now();
+        $this->email_verified_at = now()->format('Y-m-d H:i:s');
+
+        return true;
     }
 
     public function getEmailForVerification(): ?string
