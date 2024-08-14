@@ -13,12 +13,7 @@
         @if (count($arts))
             <div class="grid-cols-4 grid gap-4">
                 @foreach ($arts as $art)
-                    <div>
-                        <a href="/arts/{{ $art->id }}">
-                            <img src="{{ route('image.show', ['art' => $art]) }}">
-                        </a>
-                        <a href="{{ route('arts.user.art', ['user' => $art->user]) }}">{{ ucwords($art->user->name) }}</a>
-                    </div>
+                    <x-art :art="$art" />
                 @endforeach
             </div>
 
