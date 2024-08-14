@@ -2,7 +2,7 @@
     <x-page-title>{{ str($user->name)->ucfirst() }}'s art</x-page-title>
 
     @if (count($arts))
-        <div class="grid-cols-4 grid gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($arts as $art)
                 <div>
                     <a href="{{ route('arts.show', ['art' => $art]) }}">
