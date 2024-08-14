@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index(): View
     {
-        $arts = Art::with('user')->orderBy('created_at', 'desc')->limit(12)->get();
+        $arts = Art::with('user')->orderBy('created_at', 'desc')->limit(8)->get();
 
         return view('home', [
             'arts' => $arts
