@@ -29,7 +29,7 @@ class ArtController extends Controller
     public function index(): View
     {
         return view('arts.index', [
-            'arts' => Art::orderBy('id', 'desc')->simplePaginate(Config::get('services.pagination.per_page')),
+            'arts' => Art::with('user')->orderBy('id', 'desc')->simplePaginate(Config::get('services.pagination.per_page')),
         ]);
     }
 
