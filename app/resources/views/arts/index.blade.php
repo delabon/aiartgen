@@ -2,7 +2,7 @@
     <x-page-title>Explore inspiring art</x-page-title>
 
     @if (count($arts))
-        <div class="grid-cols-4 grid gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             @foreach ($arts as $art)
                 <x-art :art="$art" />
             @endforeach
