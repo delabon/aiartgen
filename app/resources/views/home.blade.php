@@ -11,7 +11,7 @@
         <h3 class="font-bold text-xl text-center mb-4">Latest Art</h3>
 
         @if (count($arts))
-            <div class="grid-cols-4 grid gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @foreach ($arts as $art)
                     <x-art :art="$art" />
                 @endforeach
