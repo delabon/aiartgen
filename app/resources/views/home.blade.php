@@ -1,6 +1,6 @@
 <x-layout>
     <div class="mt-16 text-center">
-        <h1 class="font-bold text-4xl">Welcome to AiArtGen</h1>
+        <h1 class="font-bold text-2xl md:text-4xl">Welcome to AiArtGen</h1>
 
         <p class="text-center mt-4 mb-4">Get inspired by the work of millions of top-rated ai artists around the world.</p>
 
