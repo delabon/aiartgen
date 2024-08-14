@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="font-bold text-4xl text-center my-16">Reset password</h1>
+    <x-page-title>Reset password</x-page-title>
 
     <form class="w-full mx-auto" action="{{ route('password.reset.update', ['user' => $user]) }}" method="post">
         @csrf

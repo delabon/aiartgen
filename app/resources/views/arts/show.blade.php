@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="font-bold text-4xl text-center my-16">{{ ucfirst($art->title) }}</h1>
+    <x-page-title>{{ ucfirst($art->title) }}</x-page-title>
 
     <div class="flex flex-col justify-center">
         <img src="{{ url('image/') . '/' . $art->id }}">

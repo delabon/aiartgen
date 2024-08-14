@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="font-bold text-4xl text-center my-16">Explore inspiring art</h1>
+    <x-page-title>Explore inspiring art</x-page-title>
 
     @if (count($arts))
         <div class="grid-cols-4 grid gap-4">

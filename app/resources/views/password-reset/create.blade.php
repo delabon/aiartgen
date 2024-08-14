@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="font-bold text-4xl text-center my-16">Send reset-password email</h1>
+    <x-page-title>Send reset-password email</x-page-title>
 
     <form class="w-full mx-auto" action="{{ route('password.reset.store') }}" method="post">
         @csrf

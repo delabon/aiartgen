@@ -13,7 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-dribbble-500">
-    <div class="mx-auto max-w-7xl">
+    <div class="mx-4 max-w-7xl 2xl:mx-auto">
         <header class="my-6 flex items-center justify-between relative">
             <a href="{{ route('home') }}">
                 <span class="font-bold text-xl">AI.Art</span>

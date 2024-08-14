@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="font-bold text-4xl text-center my-16">Login</h1>
+    <x-page-title>Login</x-page-title>
 
     <form class="w-full mx-auto" action="/login" method="post">
         @csrf

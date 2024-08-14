@@ -1,5 +1,5 @@
 <x-layout>
-    <h1 class="font-bold text-4xl text-center my-16">Settings</h1>
+    <x-page-title>Settings</x-page-title>
 
     <form class="w-full mx-auto" action="{{ route('settings.update.basic') }}" method="post">
         @csrf
