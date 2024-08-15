@@ -165,4 +165,24 @@ class LoginTest extends TestCase
         $response->assertSessionHas('error', 'You need to verify your email address.');
         $this->assertFalse(Auth::check());
     }
+
+    public function test_rate_limiting_login_to_5_attempts_per_1_minute(): void
+    {
+        $email = 'test@example.com';
+        $password = '123456789';
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/login', [
+                'email' => $email,
+                'password' => $password,
+            ]);
+        }
+
+        $response = $this->post('/login', [
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        $response->assertTooManyRequests();
+    }
 }

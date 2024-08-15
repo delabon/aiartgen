@@ -27,7 +27,7 @@ Route::get('/image/{art}', [ImageController::class, 'show'])->name('image.show')
 
 Route::prefix('/login')->controller(LoginController::class)->group(function () {
     Route::get('/', 'create')->name('login');
-    Route::post('/', 'store')->name('login.store');
+    Route::post('/', 'store')->name('login.store')->middleware('throttle:5,1');
 });
 
 Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
