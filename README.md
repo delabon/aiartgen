@@ -13,6 +13,16 @@ This project is a web application built with PHP and Laravel, designed to manage
 - **Notifications**: Email notifications for account verification and password reset.
 - **Role-Based Access Control**: Permissions to ensure only authorized users can perform certain actions.
 
+### Tech Stack
+
+- **Backend**: PHP 8.2, Laravel 11
+- **Database**: SQLite
+- **Testing**: PHPUnit for unit, integration and feature testing (Developed completely using TDD)
+- **Static Analysis**: PHPStan for analyzing code quality
+- **Environment Management**: Docker for containerization and consistent development environments
+- **CI**: Github actions for continuous Integration
+- **Openai**: DALL-E API for art generation
+
 ## How to setup
 
 ### Add domain to /etc/hosts (host)
