@@ -39,13 +39,13 @@ Route::prefix('/register')->name('register.')->controller(RegisterController::cl
 
 Route::prefix('/password-reset')->name('password.reset.')->controller(PasswordResetController::class)->group(function () {
     Route::get('/', 'create')->name('create');
-    Route::post('/send', 'store')->name('store');
+    Route::post('/send', 'store')->name('store')->middleware('throttle:5,1');
     Route::get('/{token}-{user}', 'edit')->name('edit')->where([
         'user' => '[0-9]+'
     ]);
     Route::patch('/{user}', 'update')->name('update')->where([
         'user' => '[0-9]+'
-    ]);
+    ])->middleware('throttle:5,1');
 });
 
 Route::prefix('/settings')->name('settings.')->controller(SettingsController::class)->group(function () {

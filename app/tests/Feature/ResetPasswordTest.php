@@ -95,6 +95,26 @@ class ResetPasswordTest extends TestCase
         ];
     }
 
+    public function test_rate_limiting_sending_reset_password_email_to_5_attempts_per_1_minute(): void
+    {
+        $email = 'john@doe.co';
+        User::factory()->create([
+            'email' => $email,
+        ]);
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/password-reset/send', [
+                'email' => $email
+            ]);
+        }
+
+        $response = $this->post('/password-reset/send', [
+            'email' => $email
+        ]);
+
+        $response->assertTooManyRequests();
+    }
+
     ///
     /// Reset password page tests
     ///
@@ -274,5 +294,30 @@ class ResetPasswordTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['token' => 'The token does not exist or is not associated with the user.']);
+    }
+
+    public function test_rate_limiting_resetting_password_email_to_5_attempts_per_1_minute(): void
+    {
+        $password = '000001';
+        $user = User::factory()->create([
+            'email' => 'john@doe.co',
+        ]);
+        $token = Password::createToken($user);
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->patch('/password-reset/' . $user->id, [
+                'reset_password_token' => $token,
+                'password' => $password,
+                'password_confirmation' => $password
+            ]);
+        }
+
+        $response = $this->patch('/password-reset/' . $user->id, [
+            'reset_password_token' => $token,
+            'password' => $password,
+            'password_confirmation' => $password
+        ]);
+
+        $response->assertTooManyRequests();
     }
 }
