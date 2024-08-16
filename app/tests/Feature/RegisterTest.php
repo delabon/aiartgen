@@ -307,4 +307,34 @@ class RegisterTest extends TestCase
 
         $this->assertFalse(Auth::check());
     }
+
+    public function test_rate_limiting_register_to_5_attempts_per_1_minute(): void
+    {
+        $email = 'jane@example.com';
+        $name = 'Jane Doe';
+        $password = '123456789';
+        $username = 'jane';
+
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/register', [
+                'email' => $i . $email,
+                'email_confirmation' => $i . $email,
+                'password' => $password,
+                'password_confirmation' => $password,
+                'name' => $name,
+                'username' => $username . $i,
+            ]);
+        }
+
+        $response = $this->post('/register', [
+            'email' => '6' . $email,
+            'email_confirmation' => '6' . $email,
+            'password' => $password,
+            'password_confirmation' => $password,
+            'name' => $name,
+            'username' => $username . '6',
+        ]);
+
+        $response->assertTooManyRequests();
+    }
 }

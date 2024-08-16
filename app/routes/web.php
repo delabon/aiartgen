@@ -34,7 +34,7 @@ Route::delete('/logout', [LoginController::class, 'destroy'])->name('logout');
 
 Route::prefix('/register')->name('register.')->controller(RegisterController::class)->group(function () {
     Route::get('/', 'create')->name('create');
-    Route::post('/', 'store')->name('store');
+    Route::post('/', 'store')->name('store')->middleware('throttle:5,1');
 });
 
 Route::prefix('/password-reset')->name('password.reset.')->controller(PasswordResetController::class)->group(function () {
