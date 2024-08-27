@@ -105,7 +105,7 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?order=oldest')
+        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?sort=oldest')
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -126,7 +126,7 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?order=newest')
+        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?sort=newest')
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);

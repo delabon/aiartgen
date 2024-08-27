@@ -12,7 +12,7 @@ class SortService
 
     public function getDirection(): string
     {
-        $sort = strtolower($this->request->query('order', 'newest'));
+        $sort = strtolower($this->request->query('sort', 'newest'));
         $sort = in_array($sort, ['oldest', 'newest']) ? $sort : 'newest';
 
         return $sort === 'newest' ? 'DESC' : 'ASC';
