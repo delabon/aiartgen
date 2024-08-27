@@ -4,6 +4,8 @@ This project is a web application built with PHP and Laravel, designed to manage
 
 ### Key Features
 
+- **APIs**: A set of APIs that allow for creating, reading, updating, and deleting art pieces.
+- **API Documentation**: Detailed documentation for the APIs, including request/response examples.
 - **User Authentication**: Secure user registration and login functionality.
 - **Email Verification**: Users must verify their email addresses before accessing certain features.
 - **Password Reset**: Users can reset their passwords via email.
