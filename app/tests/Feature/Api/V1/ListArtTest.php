@@ -29,7 +29,7 @@ class ListArtTest extends TestCase
         $this->assertArrayHasKey('data', $responseData);
         $this->assertCount(2, $responseData['data']);
 
-        $this->assertArt($responseData['data'], $date);
+        $this->assertArtLoop($responseData['data'], $date);
     }
 
     public function test_returns_empty_data_when_no_art(): void

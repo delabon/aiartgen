@@ -38,7 +38,7 @@ class ListUserArtTest extends TestCase
         $this->assertArrayHasKey('data', $responseData);
         $this->assertCount(1, $responseData['data']);
 
-        $this->assertArt($responseData['data'], $date);
+        $this->assertArtLoop($responseData['data'], $date);
         $this->assertSame($users[0]->id, $responseData['data'][0]['artist']['id']);
     }
 
