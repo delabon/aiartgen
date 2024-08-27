@@ -54,5 +54,13 @@ return [
                 'height' => env('APP_ART_HEIGHT'),
             ]
         ]
+    ],
+
+    'api' => [
+        'v1' => [
+            'pagination' => [
+                'per_page' => env('APP_API_PAGINATION_PER_PAGE')
+            ]
+        ]
     ]
 ];
