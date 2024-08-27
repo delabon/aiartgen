@@ -30,10 +30,9 @@ class ListUserArtTest extends TestCase
             'user_id' => $users[1]->id,
         ]);
 
-        $response = $this->get('/api/v1/art/@/' . $users[0]->username);
+        $response = $this->getJson('/api/v1/art/@/' . $users[0]->username)
+            ->assertOk();
 
-        $response->assertStatus(Response::HTTP_OK)
-            ->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $responseData);
@@ -51,9 +50,9 @@ class ListUserArtTest extends TestCase
             'user_id' => $users[0]->id,
         ]);
 
-        $response = $this->get('/api/v1/art/@/' . $users[1]->username);
+        $response = $this->getJson('/api/v1/art/@/' . $users[1]->username)
+            ->assertOk();
 
-        $response->assertStatus(Response::HTTP_OK)->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $responseData);
@@ -77,10 +76,9 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()
         ]);
 
-        $response = $this->get('/api/v1/art/@/' . $user->username);
+        $response = $this->getJson('/api/v1/art/@/' . $user->username)
+            ->assertOk();
 
-        $response->assertStatus(Response::HTTP_OK)
-            ->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $responseData);
@@ -107,10 +105,9 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->get('/api/v1/art/@/' . $user->username . '?order=oldest');
+        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?order=oldest')
+            ->assertOk();
 
-        $response->assertStatus(Response::HTTP_OK)
-            ->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertSame($responseData['data'][0]['id'], $art1->id);
@@ -129,10 +126,9 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->get('/api/v1/art/@/' . $user->username . '?order=newest');
+        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?order=newest')
+            ->assertOk();
 
-        $response->assertStatus(Response::HTTP_OK)
-            ->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertSame($responseData['data'][0]['id'], $art2->id);
@@ -145,18 +141,16 @@ class ListUserArtTest extends TestCase
         $uri = '/api/v1/art/@/' . $art->user->username;
 
         for ($i = 0; $i < 11; $i++) {
-            $this->get($uri);
+            $this->getJson($uri);
         }
 
-        $response = $this->get($uri);
-
-        $response->assertStatus(Response::HTTP_TOO_MANY_REQUESTS);
+        $this->getJson($uri)
+            ->assertTooManyRequests();
     }
 
     public function test_returns_not_found_response_when_username_does_not_exist(): void
     {
-        $response = $this->get('/api/v1/art/@/asdjsjad98ds9sd0sad0dsa9da');
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
+        $this->getJson('/api/v1/art/@/asdjsjad98ds9sd0sad0dsa9da')
+            ->assertNotFound();
     }
 }

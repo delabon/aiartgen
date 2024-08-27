@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\V1;
 
 use App\Models\Art;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 use Tests\Traits\Api\V1\ArtUtils;
@@ -22,9 +21,9 @@ class ListArtTest extends TestCase
             'updated_at' => $date,
         ]);
 
-        $response = $this->get('/api/v1/art');
+        $response = $this->getJson('/api/v1/art')
+            ->assertOk();
 
-        $response->assertStatus(200)->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $responseData);
@@ -35,9 +34,9 @@ class ListArtTest extends TestCase
 
     public function test_returns_empty_data_when_no_art(): void
     {
-        $response = $this->get('/api/v1/art');
+        $response = $this->getJson('/api/v1/art')
+            ->assertOk();
 
-        $response->assertStatus(200)->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $responseData);
@@ -57,9 +56,9 @@ class ListArtTest extends TestCase
             'created_at' => now()->subYear()
         ]);
 
-        $response = $this->get('/api/v1/art');
+        $response = $this->getJson('/api/v1/art')
+            ->assertOk();
 
-        $response->assertStatus(200)->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $responseData);
@@ -79,12 +78,11 @@ class ListArtTest extends TestCase
         Art::factory()->create();
 
         for ($i = 0; $i < 11; $i++) {
-            $this->get('/api/v1/art');
+            $this->getJson('/api/v1/art');
         }
 
-        $response = $this->get('/api/v1/art');
-
-        $response->assertStatus(Response::HTTP_TOO_MANY_REQUESTS);
+        $this->getJson('/api/v1/art')
+            ->assertTooManyRequests();
     }
 
     public function test_lists_art_in_ascending_order_successfully(): void
@@ -96,9 +94,9 @@ class ListArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->get('/api/v1/art?order=oldest');
+        $response = $this->getJson('/api/v1/art?order=oldest')
+            ->assertOk();
 
-        $response->assertStatus(200)->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertSame($responseData['data'][0]['id'], $art1->id);
@@ -114,9 +112,9 @@ class ListArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->get('/api/v1/art?order=newest');
+        $response = $this->getJson('/api/v1/art?order=newest')
+            ->assertOk();
 
-        $response->assertStatus(200)->assertHeader('Content-Type', 'application/json');
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertSame($responseData['data'][0]['id'], $art2->id);
