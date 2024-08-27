@@ -121,4 +121,22 @@ class ListArtTest extends TestCase
         $this->assertSame($responseData['data'][0]['id'], $art1->id);
         $this->assertSame($responseData['data'][1]['id'], $art2->id);
     }
+
+    public function test_lists_art_in_descending_order_successfully(): void
+    {
+        $art1 = Art::factory()->create([
+            'created_at' => now()->subYear()->subYear()->subYear()
+        ]);
+        $art2 = Art::factory()->create([
+            'created_at' => now()->subYear()->subYear()
+        ]);
+
+        $response = $this->get('/api/v1/art?order=newest');
+
+        $response->assertStatus(200)->assertHeader('Content-Type', 'application/json');
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertSame($responseData['data'][0]['id'], $art2->id);
+        $this->assertSame($responseData['data'][1]['id'], $art1->id);
+    }
 }
