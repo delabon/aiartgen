@@ -24,7 +24,9 @@ class RegisterController extends Controller
             'username' => ['required', 'min:3', 'max:50', 'regex:/^[a-z0-9\_]+$/', 'unique:users']
         ]);
 
+        /** @var User $user */
         $user = User::create($attributes);
+        $user->createToken('user-token', ['manage-user-art', 'manager-user-account']);
 
         Notification::send($user, new VerifyEmail());
 

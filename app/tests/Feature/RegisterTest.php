@@ -42,6 +42,7 @@ class RegisterTest extends TestCase
         $response->assertRedirectToRoute('login');
         $response->assertSessionHas('success', 'Your account has been created.');
 
+        /** @var User[] $users */
         $users = User::all();
 
         $this->assertCount(1, $users);
@@ -296,7 +297,7 @@ class RegisterTest extends TestCase
         $password = '123456789';
         $username = 'jane';
 
-        $response = $this->post('/register', [
+        $this->post('/register', [
             'email' => $email,
             'email_confirmation' => $email,
             'password' => $password,
@@ -336,5 +337,27 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertTooManyRequests();
+    }
+
+    public function test_user_should_have_access_token_after_registration(): void
+    {
+        $email = 'john@example.com';
+        $name = 'John Doe';
+        $password = '123456789';
+        $username = 'johndoe';
+
+        $this->post('/register', [
+            'email' => $email,
+            'email_confirmation' => $email,
+            'password' => $password,
+            'password_confirmation' => $password,
+            'name' => $name,
+            'username' => $username,
+        ]);
+
+        $user = User::first();
+
+        $this->assertGreaterThan(0, $user->tokens->count());
+        $this->assertSame('user-token', $user->tokens[0]->name);
     }
 }
