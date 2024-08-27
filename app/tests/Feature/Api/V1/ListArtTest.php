@@ -7,10 +7,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
+use Tests\Traits\Api\V1\ArtUtils;
 
 class ListArtTest extends TestCase
 {
     use RefreshDatabase;
+    use ArtUtils;
 
     public function test_lists_art_successfully(): void
     {
@@ -28,26 +30,7 @@ class ListArtTest extends TestCase
         $this->assertArrayHasKey('data', $responseData);
         $this->assertCount(2, $responseData['data']);
 
-        foreach ($responseData['data'] as $art) {
-            $this->assertArrayHasKey('id', $art);
-            $this->assertArrayHasKey('title', $art);
-            $this->assertArrayHasKey('artist', $art);
-            $this->assertArrayHasKey('createdAt', $art);
-            $this->assertArrayHasKey('updatedAt', $art);
-            $this->assertArrayHasKey('url', $art);
-            $this->assertArrayNotHasKey('filename', $art);
-            $this->assertUrl($art['url']);
-            $this->assertSame($date->format('Y-m-d H:i:s'), $art['createdAt']);
-            $this->assertSame($date->format('Y-m-d H:i:s'), $art['updatedAt']);
-            $this->assertIsArray($art['artist']);
-            $this->assertArrayHasKey('id', $art['artist']);
-            $this->assertArrayHasKey('name', $art['artist']);
-            $this->assertArrayHasKey('username', $art['artist']);
-            $this->assertArrayNotHasKey('password', $art['artist']);
-            $this->assertArrayNotHasKey('created_at', $art['artist']);
-            $this->assertArrayNotHasKey('updated_at', $art['artist']);
-            $this->assertArrayNotHasKey('email', $art['artist']);
-        }
+        $this->assertArt($responseData['data'], $date);
     }
 
     public function test_returns_empty_data_when_no_art(): void
