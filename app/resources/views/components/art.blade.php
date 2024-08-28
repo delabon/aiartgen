@@ -4,7 +4,7 @@
 ])
 
 <div>
-    <a href="/arts/{{ $art->id }}">
+    <a href="{{ route('arts.show', ['art' => $art]) }}">
         <img src="{{ route('image.show', ['art' => $art]) }}">
     </a>
 
