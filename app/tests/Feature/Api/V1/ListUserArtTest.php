@@ -15,6 +15,8 @@ class ListUserArtTest extends TestCase
     use RefreshDatabase;
     use ArtUtils;
 
+    private const BASE_ENDPOINT = '/api/v1/arts/@/';
+
     public function test_lists_user_art_successfully(): void
     {
         $users = User::factory(2)->create();
@@ -30,7 +32,7 @@ class ListUserArtTest extends TestCase
             'user_id' => $users[1]->id,
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $users[0]->username)
+        $response = $this->getJson(self::BASE_ENDPOINT . $users[0]->username)
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -50,7 +52,7 @@ class ListUserArtTest extends TestCase
             'user_id' => $users[0]->id,
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $users[1]->username)
+        $response = $this->getJson(self::BASE_ENDPOINT . $users[1]->username)
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -76,7 +78,7 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $user->username)
+        $response = $this->getJson(self::BASE_ENDPOINT . $user->username)
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -105,7 +107,7 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?sort=oldest')
+        $response = $this->getJson(self::BASE_ENDPOINT . $user->username . '?sort=oldest')
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -126,7 +128,7 @@ class ListUserArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art/@/' . $user->username . '?sort=newest')
+        $response = $this->getJson(self::BASE_ENDPOINT . $user->username . '?sort=newest')
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -138,7 +140,7 @@ class ListUserArtTest extends TestCase
     public function test_returns_too_many_requests_response_when_guest_exceeds_rate_limit(): void
     {
         $art = Art::factory()->create();
-        $uri = '/api/v1/art/@/' . $art->user->username;
+        $uri = self::BASE_ENDPOINT . $art->user->username;
 
         for ($i = 0; $i < 11; $i++) {
             $this->getJson($uri);
@@ -150,7 +152,7 @@ class ListUserArtTest extends TestCase
 
     public function test_returns_not_found_response_when_username_does_not_exist(): void
     {
-        $this->getJson('/api/v1/art/@/asdjsjad98ds9sd0sad0dsa9da')
+        $this->getJson(self::BASE_ENDPOINT . 'asdjsjad98ds9sd0sad0dsa9da')
             ->assertNotFound();
     }
 }

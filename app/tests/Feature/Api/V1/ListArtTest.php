@@ -13,6 +13,8 @@ class ListArtTest extends TestCase
     use RefreshDatabase;
     use ArtUtils;
 
+    private const BASE_ENDPOINT = '/api/v1/arts';
+
     public function test_lists_art_successfully(): void
     {
         $date = now()->subYear();
@@ -21,7 +23,7 @@ class ListArtTest extends TestCase
             'updated_at' => $date,
         ]);
 
-        $response = $this->getJson('/api/v1/art')
+        $response = $this->getJson(self::BASE_ENDPOINT)
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -34,7 +36,7 @@ class ListArtTest extends TestCase
 
     public function test_returns_empty_data_when_no_art(): void
     {
-        $response = $this->getJson('/api/v1/art')
+        $response = $this->getJson(self::BASE_ENDPOINT)
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -56,7 +58,7 @@ class ListArtTest extends TestCase
             'created_at' => now()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art')
+        $response = $this->getJson(self::BASE_ENDPOINT)
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -78,10 +80,10 @@ class ListArtTest extends TestCase
         Art::factory()->create();
 
         for ($i = 0; $i < 11; $i++) {
-            $this->getJson('/api/v1/art');
+            $this->getJson(self::BASE_ENDPOINT);
         }
 
-        $this->getJson('/api/v1/art')
+        $this->getJson(self::BASE_ENDPOINT)
             ->assertTooManyRequests();
     }
 
@@ -94,7 +96,7 @@ class ListArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art?sort=oldest')
+        $response = $this->getJson(self::BASE_ENDPOINT . '?sort=oldest')
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
@@ -112,7 +114,7 @@ class ListArtTest extends TestCase
             'created_at' => now()->subYear()->subYear()
         ]);
 
-        $response = $this->getJson('/api/v1/art?sort=newest')
+        $response = $this->getJson(self::BASE_ENDPOINT . '?sort=newest')
             ->assertOk();
 
         $responseData = json_decode($response->getContent(), true);
