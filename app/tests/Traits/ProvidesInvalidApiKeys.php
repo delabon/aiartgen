@@ -11,7 +11,7 @@ trait ProvidesInvalidApiKeys
                 'apiKey' => ''
             ],
             'Invalid api key' => [
-                'apiKey' => 'invalid apu key'
+                'apiKey' => 'invalid api key'
             ],
         ];
     }
