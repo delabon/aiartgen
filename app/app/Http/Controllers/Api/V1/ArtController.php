@@ -86,4 +86,12 @@ class ArtController extends Controller
             return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function destroy(Art $art): JsonResponse
+    {
+        @unlink(Config::get('services.dirs.arts') . '/' . $art->filename);
+        $art->delete();
+
+        return new JsonResponse(true);
+    }
 }
