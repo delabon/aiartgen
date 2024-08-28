@@ -10,6 +10,7 @@
         "aws/aws-sdk-php": "^3.316",
         "bluemmb/faker-picsum-photos-provider": "^2.0",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {

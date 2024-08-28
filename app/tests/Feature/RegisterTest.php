@@ -25,30 +25,28 @@ class RegisterTest extends TestCase
     {
         Notification::fake();
 
-        $email = 'john@example.com';
-        $name = 'John Doe';
-        $password = '123456789';
-        $username = 'johndoe';
+        $userData = $this->getUserData();
 
         $response = $this->post('/register', [
-            'email' => $email,
-            'email_confirmation' => $email,
-            'password' => $password,
-            'password_confirmation' => $password,
-            'name' => $name,
-            'username' => $username,
+            'email' => $userData['email'],
+            'email_confirmation' => $userData['email'],
+            'password' => $userData['password'],
+            'password_confirmation' => $userData['password'],
+            'name' => $userData['name'],
+            'username' => $userData['username'],
         ]);
 
         $response->assertRedirectToRoute('login');
         $response->assertSessionHas('success', 'Your account has been created.');
 
+        /** @var User[] $users */
         $users = User::all();
 
         $this->assertCount(1, $users);
-        $this->assertSame($email, $users[0]->email);
-        $this->assertSame($name, $users[0]->name);
-        $this->assertSame($username, $users[0]->username);
-        $this->assertNotEquals($password, $users[0]->password);
+        $this->assertSame($userData['email'], $users[0]->email);
+        $this->assertSame($userData['name'], $users[0]->name);
+        $this->assertSame($userData['username'], $users[0]->username);
+        $this->assertNotEquals($userData['password'], $users[0]->password);
 
         Notification::assertSentTo($users[0], VerifyEmail::class);
     }
@@ -82,22 +80,19 @@ class RegisterTest extends TestCase
 
     public function test_registration_fails_with_duplicate_username(): void
     {
-        $email = 'john@example.com';
-        $name = 'John Doe';
-        $password = '123456789';
-        $username = 'johndoe';
+        $userData = $this->getUserData();
 
         User::factory()->create([
-            'username' => $username,
+            'username' => $userData['username'],
         ]);
 
         $response = $this->post('/register', [
-            'email' => $email,
-            'email_confirmation' => $email,
-            'password' => $password,
-            'password_confirmation' => $password,
-            'name' => $name,
-            'username' => $username,
+            'email' => $userData['email'],
+            'email_confirmation' => $userData['email'],
+            'password' => $userData['password'],
+            'password_confirmation' => $userData['password'],
+            'name' => $userData['name'],
+            'username' => $userData['username'],
         ]);
 
         $response->assertSessionHasErrors(['username']);
@@ -291,18 +286,15 @@ class RegisterTest extends TestCase
 
     public function test_keeps_new_user_logged_out_after_registration(): void
     {
-        $email = 'jane@example.com';
-        $name = 'Jane Doe';
-        $password = '123456789';
-        $username = 'jane';
+        $userData = $this->getUserData();
 
-        $response = $this->post('/register', [
-            'email' => $email,
-            'email_confirmation' => $email,
-            'password' => $password,
-            'password_confirmation' => $password,
-            'name' => $name,
-            'username' => $username,
+        $this->post('/register', [
+            'email' => $userData['email'],
+            'email_confirmation' => $userData['email'],
+            'password' => $userData['password'],
+            'password_confirmation' => $userData['password'],
+            'name' => $userData['name'],
+            'username' => $userData['username'],
         ]);
 
         $this->assertFalse(Auth::check());
@@ -336,5 +328,34 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertTooManyRequests();
+    }
+
+    public function test_user_should_have_access_token_after_registration(): void
+    {
+        $userData = $this->getUserData();
+
+        $this->post('/register', [
+            'email' => $userData['email'],
+            'email_confirmation' => $userData['email'],
+            'password' => $userData['password'],
+            'password_confirmation' => $userData['password'],
+            'name' => $userData['name'],
+            'username' => $userData['username'],
+        ]);
+
+        $user = User::first();
+
+        $this->assertGreaterThan(0, $user->tokens->count());
+        $this->assertSame('user-token', $user->tokens[0]->name);
+    }
+
+    private function getUserData(): array
+    {
+        return [
+            'email' => 'john@example.com',
+            'password' => '123456789',
+            'name' => 'John Doe',
+            'username' => 'johndoe',
+        ];
     }
 }
