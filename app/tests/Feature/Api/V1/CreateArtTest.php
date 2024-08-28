@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Config;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 use Tests\Traits\Api\V1\ArtUtils;
+use Tests\Traits\Api\V1\CreateUserAndAccessToken;
 use Tests\Traits\ProvidesInvalidApiKeys;
 
 class CreateArtTest extends TestCase
@@ -16,6 +17,7 @@ class CreateArtTest extends TestCase
     use RefreshDatabase;
     use ArtUtils;
     use ProvidesInvalidApiKeys;
+    use CreateUserAndAccessToken;
 
     public function test_creates_art_successfully(): void
     {
@@ -160,16 +162,5 @@ class CreateArtTest extends TestCase
             'prompt' => 'Make art about beautiful electric cats',
             'userId' => $user->id,
         ])->assertTooManyRequests();
-    }
-
-    /**
-     * @return array
-     */
-    protected function createUserAndAccessToken(): array
-    {
-        $user = User::factory()->create();
-        $token = $user->createToken('user-token', ['manage-user-art', 'manager-user-account']);
-
-        return array($user, $token);
     }
 }
