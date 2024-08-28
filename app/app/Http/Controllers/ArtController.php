@@ -92,7 +92,7 @@ class ArtController extends Controller
     {
         $arts = Art::with('user')
             ->where('user_id', '=', $user->id)
-            ->orderBy('id', 'desc')
+            ->orderBy('created_at', 'DESC')
             ->paginate(Config::get('services.pagination.per_page'));
 
         return view('arts.user-art', [

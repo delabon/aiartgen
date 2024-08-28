@@ -25,8 +25,18 @@ class ListUserArtTest extends TestCase
     {
         Config::set('services.pagination.per_page', 2);
         $user = User::factory()->create();
-        $arts = Art::factory(3)->create([
-            'user_id' => $user->id
+        $arts = [];
+        $arts[] = Art::factory()->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subYear()->subYear()->subYear(),
+        ]);
+        $arts[] = Art::factory()->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subYear()->subYear(),
+        ]);
+        $arts[] = Art::factory()->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subYear(),
         ]);
         $artImages = [];
         $artUrls = [];
