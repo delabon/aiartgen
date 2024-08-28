@@ -11,4 +11,5 @@ Route::prefix('/v1/arts')->controller(ArtController::class)->group(function () {
     Route::get('/{art}', 'show')->where([
         'art' => '[0-9]+'
     ])->middleware('throttle:10,1');
+    Route::post('/', 'store')->middleware(['auth:sanctum', 'throttle:1,1']);
 });
