@@ -48,7 +48,6 @@ class ArtController extends Controller
     public function store(): ArtResource|JsonResponse
     {
         $validated = request()->validate([
-            'userId' => ['required', 'integer', 'exists:users,id'],
             'title' => ['required', 'min:2', 'max:255', 'regex:/^[a-z0-9\- ]+$/i'],
             'prompt' => ['required', 'min:2', 'max:255']
         ]);
@@ -56,7 +55,7 @@ class ArtController extends Controller
         try {
             $artGenerationApiService = new ArtGenerationApiService(Config::get('services.openai.api_key'), new Client());
             $artUrl = $artGenerationApiService->request(
-                request('prompt'),
+                $validated['prompt'],
                 (int) Config::get('services.images.sizes.default.width'),
                 (int) Config::get('services.images.sizes.default.height')
             );
@@ -66,8 +65,8 @@ class ArtController extends Controller
 
             $art = Art::create([
                 'filename' => basename($artPath),
-                'title' => request('title'),
-                'user_id' => $validated['userId'],
+                'title' => $validated['title'],
+                'user_id' => request()->user()->id,
             ]);
 
             return new ArtResource($art->load('user'));
