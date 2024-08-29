@@ -12,6 +12,6 @@ Route::prefix('/v1/arts')->controller(ArtController::class)->group(function () {
         'art' => '[0-9]+'
     ])->middleware('throttle:10,1');
     Route::post('/', 'store')->middleware(['auth:sanctum', 'throttle:1,1']);
-    Route::delete('/{art}', 'destroy')->middleware(['auth:sanctum'])->can('edit', 'art');
+    Route::delete('/{art}', 'destroy')->middleware(['auth:sanctum', 'throttle:1,1'])->can('edit', 'art');
     Route::patch('/{art}', 'update')->middleware(['auth:sanctum', 'throttle:1,1'])->can('edit', 'art');
 });
