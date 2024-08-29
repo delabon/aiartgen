@@ -83,4 +83,22 @@ class DeleteArtTest extends TestCase
         $this->assertCount(1, Art::all());
         $this->assertTrue(file_exists($this->imagePath));
     }
+
+    public function test_fails_when_exceeds_rate_limit(): void
+    {
+        list($user, $token) = $this->createUserAndAccessToken();
+        $arts = Art::factory(2)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->deleteJson('/api/v1/arts/' . $arts[0]->id)
+            ->assertOk();
+
+        $this->withHeader('Authorization', 'Bearer ' . $token->plainTextToken)
+            ->deleteJson('/api/v1/arts/' . $arts[1]->id)
+            ->assertTooManyRequests();
+
+        $this->assertCount(1, Art::all());
+    }
 }
