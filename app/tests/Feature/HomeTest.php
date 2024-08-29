@@ -3,10 +3,9 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class HomeTest extends TestCase
+class HomeTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

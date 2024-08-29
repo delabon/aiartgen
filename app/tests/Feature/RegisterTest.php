@@ -8,9 +8,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class RegisterTest extends TestCase
+class RegisterTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

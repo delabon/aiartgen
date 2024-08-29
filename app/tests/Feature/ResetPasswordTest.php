@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class ResetPasswordTest extends TestCase
+class ResetPasswordTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

@@ -19,10 +19,10 @@ class ArtFactory extends Factory
     public function definition(): array
     {
         $this->faker->addProvider(new PicsumPhotosProvider($this->faker));
-        $artDir = env('APP_ART_GEN_DIR');
+        $image = $this->faker->image(storage_path(env('APP_ART_GEN_DIR')), 1024, 1024);
 
         return [
-            'filename' => basename($this->faker->image($artDir, 1024, 1024)),
+            'filename' => basename($image),
             'title' => $this->faker->sentence(),
             'user_id' => User::factory()
         ];

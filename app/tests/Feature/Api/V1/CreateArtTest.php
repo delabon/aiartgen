@@ -7,12 +7,13 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use Tests\FeatureTestCase;
 use Tests\Traits\Api\V1\ArtUtils;
 use Tests\Traits\Api\V1\CreateUserAndAccessToken;
 use Tests\Traits\ProvidesInvalidApiKeys;
 
-class CreateArtTest extends TestCase
+class CreateArtTest extends FeatureTestCase
 {
     use RefreshDatabase;
     use ArtUtils;

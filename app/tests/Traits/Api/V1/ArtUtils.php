@@ -2,7 +2,9 @@
 
 namespace Tests\Traits\Api\V1;
 
+use App\Models\Art;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 trait ArtUtils
 {
@@ -33,5 +35,10 @@ trait ArtUtils
         $this->assertArrayNotHasKey('created_at', $art['artist']);
         $this->assertArrayNotHasKey('updated_at', $art['artist']);
         $this->assertArrayNotHasKey('email', $art['artist']);
+    }
+
+    private function getImagePath(Art $art): string
+    {
+        return storage_path(Config::get('services.dirs.arts')) . '/' . $art->filename;
     }
 }

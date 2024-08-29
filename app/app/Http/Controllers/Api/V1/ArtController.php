@@ -60,7 +60,7 @@ class ArtController extends Controller
                 (int) Config::get('services.images.sizes.default.height')
             );
 
-            $imageDownloadService = new ImageDownloadService(Config::get('services.dirs.arts'));
+            $imageDownloadService = new ImageDownloadService(storage_path(Config::get('services.dirs.arts')));
             $artPath = $imageDownloadService->download($artUrl);
 
             $art = Art::create([
@@ -89,7 +89,7 @@ class ArtController extends Controller
 
     public function destroy(Art $art): JsonResponse
     {
-        @unlink(Config::get('services.dirs.arts') . '/' . $art->filename);
+        @unlink(storage_path(Config::get('services.dirs.arts')) . '/' . $art->filename);
         $art->delete();
 
         return new JsonResponse(true);

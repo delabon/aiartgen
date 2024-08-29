@@ -4,17 +4,17 @@ namespace Tests\Feature;
 
 use App\Models\Art;
 use Illuminate\Support\Facades\Config;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ReadImageTest extends TestCase
+class ReadImageTest extends FeatureTestCase
 {
     use RefreshDatabase;
 
     public function test_reads_image_successfully(): void
     {
         $art = Art::factory()->create();
-        $mimeType = mime_content_type(Config::get('services.dirs.arts') . '/' . $art->filename);
+        $mimeType = mime_content_type(storage_path(Config::get('services.dirs.arts')) . '/' . $art->filename);
 
         $this->get("/image/{$art->id}")
             ->assertOk()

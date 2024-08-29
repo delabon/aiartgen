@@ -6,9 +6,9 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class LoginTest extends TestCase
+class LoginTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

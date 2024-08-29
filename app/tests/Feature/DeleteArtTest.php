@@ -6,9 +6,9 @@ use App\Models\Art;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class DeleteArtTest extends TestCase
+class DeleteArtTest extends FeatureTestCase
 {
     use RefreshDatabase;
 
