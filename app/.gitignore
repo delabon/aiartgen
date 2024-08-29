@@ -20,3 +20,4 @@ yarn-error.log
 /.vscode
 /database/database.sqlite
 /resources/arts/*
+/storage/arts/*
