@@ -94,4 +94,15 @@ class ArtController extends Controller
 
         return new JsonResponse(true);
     }
+
+    public function update(Art $art): JsonResponse
+    {
+        $validated = request()->validate([
+            'title' => ['required', 'min:2', 'max:255', 'regex:/^[a-z0-9\- ]+$/i']
+        ]);
+
+        $art->update($validated);
+
+        return new JsonResponse(true);
+    }
 }
