@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class EditArtTest extends TestCase
+class EditArtTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

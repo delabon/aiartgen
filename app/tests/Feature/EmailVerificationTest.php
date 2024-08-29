@@ -7,9 +7,9 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\URL;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class EmailVerificationTest extends TestCase
+class EmailVerificationTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

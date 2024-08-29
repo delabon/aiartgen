@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Models\Art;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class ListArtsTest extends TestCase
+class ListArtsTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

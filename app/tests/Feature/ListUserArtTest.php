@@ -6,9 +6,9 @@ use App\Models\Art;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class ListUserArtTest extends TestCase
+class ListUserArtTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

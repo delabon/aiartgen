@@ -9,10 +9,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Group;
+use Tests\FeatureTestCase;
 use Tests\Traits\ProvidesInvalidApiKeys;
 
-class CreateArtTest extends TestCase
+class CreateArtTest extends FeatureTestCase
 {
     use RefreshDatabase;
     use ProvidesInvalidApiKeys;
@@ -35,7 +36,6 @@ class CreateArtTest extends TestCase
     public function test_user_generates_art_successfully(): void
     {
         $artTitle = 'A cat that sings';
-        $dir = env('APP_ART_GEN_DIR');
         $user = User::factory()->create();
         $this->actingAs($user);
 
@@ -48,7 +48,7 @@ class CreateArtTest extends TestCase
         $response->assertSessionHas('success', 'Your art has been generated.');
 
         $art = Art::first();
-        $filePath = $dir . '/' . $art->filename;
+        $filePath = $this->artDir . '/' . $art->filename;
 
         $this->assertInstanceOf(Art::class, $art);
         $this->assertCount(1, $art->user->arts);

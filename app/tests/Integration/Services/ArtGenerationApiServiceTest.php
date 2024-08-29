@@ -6,6 +6,7 @@ use App\Exceptions\InvalidApiKeyException;
 use App\Services\ArtGenerationApiService;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 use Tests\Traits\ProvidesInvalidApiKeys;
 

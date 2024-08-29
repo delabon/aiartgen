@@ -4,10 +4,10 @@ namespace Tests\Feature\Api\V1;
 
 use App\Models\Art;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 use Tests\Traits\Api\V1\ArtUtils;
 
-class ShowArtTest extends TestCase
+class ShowArtTest extends FeatureTestCase
 {
     use RefreshDatabase;
     use ArtUtils;

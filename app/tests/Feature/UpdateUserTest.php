@@ -7,9 +7,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class UpdateUserTest extends TestCase
+class UpdateUserTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

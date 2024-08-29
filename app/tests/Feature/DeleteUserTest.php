@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Tests\TestCase;
+use Tests\FeatureTestCase;
 
-class DeleteUserTest extends TestCase
+class DeleteUserTest extends FeatureTestCase
 {
     use RefreshDatabase;
 

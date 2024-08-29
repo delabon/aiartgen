@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class SortServiceTest extends TestCase
 {
-    // Mock the Request class causes a deprecation notice by PHPUnit, So I'll have to create a fake request
+    // Mocking the Request class causes a deprecation notice by PHPUnit, So I'll have to create a fake request
 
     public function test_returns_desc_when_request_has_order_param_as_newest(): void
     {
