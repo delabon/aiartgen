@@ -10,6 +10,8 @@ use App\Exceptions\InvalidImageException;
 use App\Exceptions\InvalidRegionException;
 use App\Exceptions\RateLimitException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreArtRequest;
+use App\Http\Requests\UpdateArtRequest;
 use App\Http\Resources\V1\ArtCollection;
 use App\Http\Resources\V1\ArtResource;
 use App\Models\Art;
@@ -45,17 +47,12 @@ class ArtController extends Controller
         return new ArtResource($art->load('user'));
     }
 
-    public function store(): ArtResource|JsonResponse
+    public function store(StoreArtRequest $request): ArtResource|JsonResponse
     {
-        $validated = request()->validate([
-            'title' => ['required', 'min:2', 'max:255', 'regex:/^[a-z0-9\- ]+$/i'],
-            'prompt' => ['required', 'min:2', 'max:255']
-        ]);
-
         try {
             $artGenerationApiService = new ArtGenerationApiService(Config::get('services.openai.api_key'), new Client());
             $artUrl = $artGenerationApiService->request(
-                $validated['prompt'],
+                $request->get('prompt'),
                 (int) Config::get('services.images.sizes.default.width'),
                 (int) Config::get('services.images.sizes.default.height')
             );
@@ -65,7 +62,7 @@ class ArtController extends Controller
 
             $art = Art::create([
                 'filename' => basename($artPath),
-                'title' => $validated['title'],
+                'title' => $request->get('title'),
                 'user_id' => request()->user()->id,
             ]);
 
@@ -95,13 +92,9 @@ class ArtController extends Controller
         return new JsonResponse(true);
     }
 
-    public function update(Art $art): JsonResponse
+    public function update(Art $art, UpdateArtRequest $request): JsonResponse
     {
-        $validated = request()->validate([
-            'title' => ['required', 'min:2', 'max:255', 'regex:/^[a-z0-9\- ]+$/i']
-        ]);
-
-        $art->update($validated);
+        $art->update($request->validated());
 
         return new JsonResponse(true);
     }
