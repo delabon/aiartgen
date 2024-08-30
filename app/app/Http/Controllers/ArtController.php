@@ -11,6 +11,8 @@ use App\Exceptions\InvalidApiKeyException;
 use App\Exceptions\InvalidImageException;
 use App\Exceptions\InvalidRegionException;
 use App\Exceptions\RateLimitException;
+use App\Http\Requests\StoreArtRequest;
+use App\Http\Requests\UpdateArtRequest;
 use App\Models\Art;
 use App\Models\User;
 use App\Services\ArtGenerationApiService;
@@ -45,17 +47,12 @@ class ArtController extends Controller
         return view('arts.create');
     }
 
-    public function store(): RedirectResponse|Response
+    public function store(StoreArtRequest $request): RedirectResponse|Response
     {
-        request()->validate([
-            'prompt' => ['required', 'min:2', 'max:255'],
-            'title' => ['required', 'regex:/^[a-z0-9\- ]+$/i', 'min:2', 'max:255'],
-        ]);
-
         try {
             $artGenerationApiService = new ArtGenerationApiService(Config::get('services.openai.api_key'), new Client());
             $artUrl = $artGenerationApiService->request(
-                request('prompt'),
+                $request->get('prompt'),
                 (int) Config::get('services.images.sizes.default.width'),
                 (int) Config::get('services.images.sizes.default.height')
             );
@@ -65,7 +62,7 @@ class ArtController extends Controller
 
             Art::create([
                 'filename' => basename($artPath),
-                'title' => request('title'),
+                'title' => $request->get('title'),
                 'user_id' => Auth::user()->id,
             ]);
             session()->flash('success', 'Your art has been generated.');
@@ -108,13 +105,9 @@ class ArtController extends Controller
         ]);
     }
 
-    public function update(Art $art): RedirectResponse
+    public function update(Art $art, UpdateArtRequest $request): RedirectResponse
     {
-        $attributes = request()->validate([
-            'title' => ['required', 'regex:/^[a-z0-9\- ]+$/i', 'min:2', 'max:255'],
-        ]);
-
-        $art->update($attributes);
+        $art->update($request->validated());
         session()->flash('success', 'Your art has been updated.');
 
         return to_route('arts.show', [
