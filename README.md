@@ -27,14 +27,14 @@ This project is a web application built with PHP and Laravel, designed to manage
 
 ## How to setup
 
-### Add domain to /etc/hosts (host)
+### 1) Add domain to /etc/hosts (host)
 
 ```bash
 sudo nano /etc/hosts
 127.0.0.111  aiartgen.test
 ```
 
-### Install mkcert (host)
+### 2) Install mkcert (host)
 
 ```bash
 sudo apt install libnss3-tools
@@ -45,27 +45,33 @@ cd config/ssls/
 mkcert -install aiartgen.test
 ```
 
-### Up containers (host)
+### 3) Up containers (host)
 
 ```bash
 docker-compose up --build -d
 ```
 
-### Connect to container bash (host)
+### 4) Connect to container
 
 ```bash
 docker exec -it php-container bash
 ```
 
-### Run composer
+### 5) Run the following
 
 ```bash
 composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+exit
 ```
 
-### Npm
+### 6) Run the following
 
 ```bash
 docker-compose run --rm node-service npm install
 docker-compose run --rm node-service npm run build
 ```
+
+Open https://aiartgen.test/ in your browser.
