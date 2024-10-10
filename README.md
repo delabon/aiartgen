@@ -1,6 +1,8 @@
 ## AIArtGen
 
-This project is a web application built with PHP and Laravel, designed to manage and showcase art collections. Users can register, log in, and manage their art pieces. The application includes features for user authentication, email verification, password reset, and user-specific art management.
+Social media for AI artists where they can leverage Opanai's DALL-E to generate modern art. Built with Laravel.
+
+[Limited Demo](https://aiartgen.delabon.com/)
 
 ### Key Features
 
@@ -22,56 +24,39 @@ This project is a web application built with PHP and Laravel, designed to manage
 - **Testing**: PHPUnit for unit, integration and feature testing (Developed completely using TDD)
 - **Static Analysis**: PHPStan for analyzing code quality
 - **Environment Management**: Docker for containerization and consistent development environments
-- **CI**: Github actions for continuous Integration
+- **CI**: GitHub actions for continuous Integration
 - **Openai**: DALL-E API for art generation
 
-## How to setup
+## How to test it on your local machine
 
-### 1) Add domain to /etc/hosts (host)
-
-```bash
-sudo nano /etc/hosts
-127.0.0.111  aiartgen.test
-```
-
-### 2) Install mkcert (host)
+### Up containers
 
 ```bash
-sudo apt install libnss3-tools
-curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64"
-chmod +x mkcert-v*-linux-amd64
-sudo mv mkcert-v*-linux-amd64 /usr/local/bin/mkcert
-cd config/ssls/
-mkcert -install aiartgen.test
+docker compose up --build -d
 ```
 
-### 3) Up containers (host)
+### Run the following
 
 ```bash
-docker-compose up --build -d
+docker compose exec php-service composer install
+cp app/.env.example app/.env
+docker compose exec php-service php artisan key:generate
+docker compose exec php-service php artisan migrate
 ```
 
-### 4) Connect to container
+### Build assets
 
 ```bash
-docker exec -it php-container bash
+docker compose run --rm node-service npm install
+docker compose run --rm node-service npm run build
 ```
 
-### 5) Run the following
+### Run PHPUnit tests
 
 ```bash
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-exit
+docker compose exec php-service vendor/bin/phpunit --testsuite=Unit
+docker compose exec php-service vendor/bin/phpunit --testsuite=Integration
+docker compose exec php-service vendor/bin/phpunit --testsuite=Feature
 ```
 
-### 6) Run the following
-
-```bash
-docker-compose run --rm node-service npm install
-docker-compose run --rm node-service npm run build
-```
-
-Open https://aiartgen.test/ in your browser.
+Open http://localhost:8022/ in your browser.
