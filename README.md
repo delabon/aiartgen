@@ -1,6 +1,6 @@
 ## AIArtGen
 
-Social media for AI artists where they can leverage Opanai's DALL-E to generate modern art. Built with Laravel.
+A platform for AI artists where they can leverage Opanai's DALL-E to generate modern art. Built with Laravel.
 
 [Limited Demo](https://aiartgen.delabon.com/)
 
