@@ -2,8 +2,6 @@
 
 A platform for AI artists where they can leverage Opanai's DALL-E to generate modern art.
 
-[Limited Demo](https://aiartgen.delabon.com/)
-
 ### Key Features
 
 - **APIs**: A set of APIs that allow for creating, reading, updating, and deleting art pieces.
