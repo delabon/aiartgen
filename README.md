@@ -18,12 +18,13 @@ A platform for AI artists where they can leverage Opanai's DALL-E to generate mo
 ### Tech Stack
 
 - **Backend**: PHP 8.2, Laravel 11
+- **Frontend**: HTML5, Balde, Tailwind CSS
 - **Database**: SQLite
 - **Testing**: PHPUnit for unit, integration and feature testing (Developed completely using TDD)
 - **Static Analysis**: PHPStan for analyzing code quality
 - **Environment Management**: Docker for containerization and consistent development environments
 - **CI**: GitHub actions for continuous Integration
-- **Openai**: DALL-E API for art generation
+- **OpenAI**: DALL-E API for art generation
 
 ## How to test it on your local machine
 
